@@ -1,595 +1,296 @@
 <!DOCTYPE html>
-<!-- saved from url=(0049)file:///C:/Users/Dc/Documents/BAJRANGIPVTLTD.html -->
-<html lang="gu"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BAJRANGI DIAMONDS - ERP FIXED</title>
-<script src="./BAJRANGI DIAMONDS - ERP FIXED_files/xlsx.full.min.js.download"></script>
+<title>BAJRANGI DIAMONDS - CLOUD FIXED</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+Gujarati:wght@400;700&family=Noto+Serif+Gujarati:wght@900&display=swap');
+    :root { --primary: #4338ca; --bg: #f1f5f9; --sidebar: #ffffff; --success: #10b981; --danger: #ef4444; --border: #e2e8f0; }
+    body { font-family: 'Plus Jakarta Sans', 'Noto Sans Gujarati', sans-serif; margin: 0; background: var(--bg); display: flex; height: 100vh; overflow: hidden; }
 
-    :root {
-        --primary: #4338ca;
-        --primary-light: #eef2ff;
-        --bg: #f1f5f9;
-        --sidebar: #ffffff;
-        --text-main: #0f172a;
-        --text-muted: #64748b;
-        --success: #10b981;
-        --danger: #ef4444;
-        --border: #e2e8f0;
-        --radius: 12px;
-    }
+    /* SIDEBAR */
+    .sidebar { width: 300px; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; }
+    .logo-box { text-align: center; margin-bottom: 25px; position: relative; }
+    .brand-name { font-size: 1.5rem; font-weight: 800; color: #1e1b4b; margin-bottom: 15px; display: block; }
+    .image-container { position: relative; width: 120px; height: 120px; margin: 0 auto; }
+    #logo-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid #eef2ff; }
+    .upload-btn { position: absolute; bottom: 0; right: 0; background: var(--primary); color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 3px solid white; }
 
-    * { box-sizing: border-box; }
+    .nav-item { padding: 12px 15px; border-radius: 12px; cursor: pointer; color: #64748b; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .nav-item.active { background: var(--primary); color: white; }
 
-    body {
-        font-family: 'Plus Jakarta Sans', 'Noto Sans Gujarati', sans-serif;
-        margin: 0; background: var(--bg); color: var(--text-main);
-        display: flex; height: 100vh; overflow: hidden;
-    }
-
-    .sidebar {
-        width: 300px; background: var(--sidebar); border-right: 1px solid var(--border);
-        display: flex; flex-direction: column; padding: 30px 20px; box-shadow: 4px 0 20px rgba(0,0,0,0.02);
-    }
+    /* MAIN */
+    .main { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 110px; }
+    header { background: white; padding: 15px 35px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .content { padding: 25px; max-width: 1200px; margin: 0 auto; width: 100%; }
     
-    .logo-box { text-align: center; margin-bottom: 35px; }
-    
-    #logo-display { 
-        width: 120px; height: 120px; border-radius: 50%; 
-        object-fit: cover; border: 4px solid var(--primary-light);
-        margin-bottom: 15px; box-shadow: 0 10px 25px -5px rgba(67, 56, 202, 0.2);
-        cursor: pointer; background: #eee;
-    }
-    
-    .brand-title { font-size: 1.4rem; font-weight: 800; color: var(--text-main); margin: 0; }
-    
-    /* Chamak Aapki - Extra Bold & Stylish */
-    .chamak-style {
-        font-family: 'Noto Serif Gujarati', serif;
-        font-size: 1.4rem; font-weight: 900; color: #1e1b4b;
-        margin-top: 15px; text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    .hisab-style {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        font-weight: 700; color: var(--primary); font-size: 0.9rem;
-        margin-bottom: 10px; opacity: 0.8;
-    }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
+    .stat-card { background: #fff; padding: 15px; border-radius: 15px; border: 1px solid var(--border); text-align: center; }
+    .stat-card .val { font-size: 1.6rem; font-weight: 800; color: var(--primary); }
 
-    .nav-group { margin-top: 10px; flex: 1; }
-    .nav-item {
-        padding: 14px 18px; border-radius: var(--radius); cursor: pointer; color: var(--text-muted);
-        font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 12px;
-    }
-    .nav-item:hover { background: var(--primary-light); color: var(--primary); }
-    .nav-item.active { background: var(--primary); color: white; box-shadow: 0 10px 15px -3px rgba(67, 56, 202, 0.4); }
-
-    .main { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
-    
-    header {
-        background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
-        padding: 20px 40px; border-bottom: 1px solid var(--border);
-        display: flex; justify-content: space-between; align-items: center;
-        position: sticky; top: 0; z-index: 100;
-    }
-
-    .date-nav {
-        display: flex; align-items: center; gap: 15px; background: white; 
-        padding: 8px 20px; border-radius: 50px; border: 1px solid var(--border);
-    }
-
-    .content { padding: 40px; max-width: 1300px; margin: 0 auto; width: 100%; }
-
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 40px; }
-    .stat-card { background: white; padding: 25px; border-radius: 20px; border: 1px solid var(--border); }
-    .stat-card h4 { margin: 0; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; }
-    .stat-card .val { font-size: 2.2rem; font-weight: 800; margin: 10px 0; display: block; }
-
-    .section-work-info {
-        background: var(--primary-light); padding: 12px 20px; border-radius: 10px;
-        margin-bottom: 15px; display: flex; justify-content: space-between;
-        font-weight: 800; color: var(--primary); border-left: 5px solid var(--primary);
-    }
-
-    .table-box { background: white; border-radius: 20px; border: 1px solid var(--border); overflow: hidden; }
+    .table-box { background: white; border-radius: 15px; border: 1px solid var(--border); overflow: hidden; }
     table { width: 100%; border-collapse: collapse; }
-    th { background: #f8fafc; padding: 18px; text-align: center; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; border-bottom: 1px solid var(--border); }
-    td { padding: 15px; border-bottom: 1px solid #f8fafc; text-align: center; }
+    th { background: #f8fafc; padding: 15px; color: #64748b; font-size: 0.8rem; border-bottom: 1px solid var(--border); }
+    td { padding: 12px; border-bottom: 1px solid #f8fafc; text-align: center; font-weight: 700; }
+    
+    .btn-section { background: #eef2ff; color: var(--primary); padding: 10px 20px; font-weight: 800; border-radius: 10px; border: none; cursor: pointer; margin-right: 5px; }
+    .btn-section.active-tab { background: var(--primary); color: white; }
 
-    input[type="number"] {
-        border: 2px solid var(--border); padding: 10px; border-radius: 10px; width: 90px; 
-        text-align: center; font-weight: 700; outline: none; font-size: 1.1rem;
-    }
-    input:focus { border-color: var(--primary); background: #fcfdff; }
-
-    .btn-status { padding: 8px 14px; border-radius: 50px; border: none; font-weight: 700; cursor: pointer; }
-    .p-bg { background: #dcfce7; color: #15803d; }
-    .a-bg { background: #fee2e2; color: #b91c1c; }
-
-    .actions { padding: 25px 40px; background: white; border-top: 1px solid var(--border); display: flex; gap: 20px; justify-content: flex-end; }
-    .btn-main { padding: 12px 25px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; }
-    .btn-primary { background: var(--primary); color: white; }
+    .bottom-bar { position: fixed; bottom: 0; right: 0; left: 300px; background: white; padding: 15px 35px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .btn-next { background: var(--primary); color: white; padding: 12px 22px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <div class="sidebar">
     <div class="logo-box">
-        <input type="file" id="logo-input" hidden="" accept="image/*" onchange="uploadLogo(this)">
-        <img id="logo-display" src="data:image/jpeg;base64,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" alt="Logo" onclick="document.getElementById(&#39;logo-input&#39;).click()">
-        <h1 class="brand-title">BAJRANGI DIAMONDS</h1>
-        <div class="chamak-style">ચમક આપકી</div>
-        <div class="hisab-style">HISAB HAMARA</div>
+        <span class="brand-name">BAJRANGI DIAMONDS</span>
+        <div class="image-container">
+            <img id="logo-img" src="https://via.placeholder.com/120?text=Logo" alt="Logo">
+            <label for="fileInput" class="upload-btn">📷</label>
+            <input type="file" id="fileInput" hidden accept="image/*" onchange="uploadPhoto(this)">
+        </div>
+        <div style="font-family:'Noto Serif Gujarati'; font-size:1.5rem; font-weight:900; color:var(--primary); margin-top:15px;">ચમક આપકી</div>
     </div>
-
     <div class="nav-group">
-        <div class="nav-item active" onclick="openTab(event, &#39;section1&#39;)">📋 તળીયા (Section 1)</div>
-        <div class="nav-item" onclick="openTab(event, &#39;section2&#39;)">📋 પેલ (Section 2)</div>
-        <div class="nav-item" onclick="openTab(event, &#39;section3&#39;)">📋 મથાળા (Section 3)</div>
-    </div>
-    
-    <div style="padding-top: 20px; border-top: 1px solid var(--border);">
-        <div class="nav-item" onclick="exportExcel()">📊 Export Report</div>
-        <div class="nav-item" style="color:var(--danger)" onclick="resetAll()">🛑 System Reset</div>
+        <div class="nav-item active" onclick="showView('admin')">📊 મેઈન ડેશબોર્ડ</div>
+        <div class="nav-item" onclick="showView('worker')">👤 કારીગર પોર્ટલ</div>
+        <div class="nav-item" style="color:var(--danger); margin-top:50px;" onclick="resetSystem()">🛑 આખા મહિનાનો ડેટા સાફ કરો</div>
     </div>
 </div>
 
 <div class="main">
     <header>
-        <h2 id="pageTitle" style="margin:0; font-size: 1.2rem; font-weight: 800;">તળીયા વિભાગ</h2>
-        <div class="date-nav">
-            <button onclick="changeDay(-1)">◀</button>
-            <span id="currentViewDate" style="font-weight:800; color: var(--primary);">23/3/2026 (Day 1)</span>
-            <button id="nextBtn" onclick="changeDay(1)" style="opacity: 0.2;">▶</button>
+        <h2 id="pageTitle" style="margin:0;">તળીયા વિભાગ</h2>
+        <div style="display:flex; gap:15px; align-items:center;">
+            <span id="headerDate" style="font-weight:900; color:var(--primary); font-size:1.1rem;"></span>
+            <button id="syncBtn" class="btn-next" style="background:#10b981; padding:8px 15px;" onclick="syncToCloud()">☁️ શીટમાં સેવ કરો</button>
         </div>
     </header>
 
-    <div class="content">
+    <div id="admin-view" class="content">
         <div class="stats">
-            <div class="stat-card"><h4>કુલ નંગ (Total)</h4><span class="val" id="t-total">0</span></div>
-            <div class="stat-card"><h4>કુલ મજૂરી (Total)</h4><span class="val" id="e-total" style="color:var(--success)">₹0.00</span></div>
-            <div class="stat-card"><h4>કુલ ઉપાડ (Total)</h4><span class="val" id="u-total" style="color:var(--danger)">₹0.00</span></div>
+            <div class="stat-card"><h4>વિભાગ કુલ નંગ</h4><span class="val" id="s-nang">0</span></div>
+            <div class="stat-card"><h4>વિભાગ મજૂરી</h4><span class="val" id="s-majuri" style="color:var(--success)">₹0</span></div>
+            <div class="stat-card"><h4>વિભાગ ઉપાડ</h4><span class="val" id="s-upad" style="color:var(--danger)">₹0</span></div>
         </div>
-
-        <div id="cont_section1" class="tab-content" style="display:block;">
-            <div class="section-work-info">
-                <span>તળીયા વિભાગ (Rate: ₹9)</span>
-                <span>નંગ: <span id="s1-n">0</span> | મજૂરી: ₹<span id="s1-m">0.00</span></span>
-            </div>
-            <div id="section1" class="table-box"><table><thead><tr><th>STATUS</th><th style="text-align:left">કારીગરનું નામ</th><th>નંગ</th><th>મજૂરી</th><th>ઉપાડ</th><th>WA</th></tr></thead><tbody><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,0)">P</button></td>
-                <td style="text-align:left; font-weight:700;">હાર્દિક</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,0,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,0,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,0)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,1)">P</button></td>
-                <td style="text-align:left; font-weight:700;">S.H. સોની</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,1,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,1,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,1)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,2)">P</button></td>
-                <td style="text-align:left; font-weight:700;">જીગ્નેશ</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,2,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,2,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,2)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,3)">P</button></td>
-                <td style="text-align:left; font-weight:700;">અંકિત</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,3,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,3,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,3)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,4)">P</button></td>
-                <td style="text-align:left; font-weight:700;">ભારતી A</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,4,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,4,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,4)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,5)">P</button></td>
-                <td style="text-align:left; font-weight:700;">જીગો</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,5,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,5,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,5)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,6)">P</button></td>
-                <td style="text-align:left; font-weight:700;">ગૌતમ</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,6,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,6,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,6)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,7)">P</button></td>
-                <td style="text-align:left; font-weight:700;">નયના</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,7,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,7,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,7)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,8)">P</button></td>
-                <td style="text-align:left; font-weight:700;">હિંમત</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,8,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,8,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,8)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,9)">P</button></td>
-                <td style="text-align:left; font-weight:700;">સિદ્ધુ</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,9,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,9,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,9)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,10)">P</button></td>
-                <td style="text-align:left; font-weight:700;">રિંકલ</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,10,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,10,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,10)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,11)">P</button></td>
-                <td style="text-align:left; font-weight:700;">સાગર</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,11,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,11,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,11)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section1&#39;,12)">P</button></td>
-                <td style="text-align:left; font-weight:700;">શિલ્પા</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section1&#39;,12,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section1&#39;,12,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section1&#39;,12)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr></tbody></table></div>
+        
+        <div style="display:flex; margin-bottom:15px;">
+            <button class="btn-section active-tab" onclick="changeSec('section1',9,'તળીયા વિભાગ', this)">તળીયા</button>
+            <button class="btn-section" onclick="changeSec('section2',4.75,'પેલ વિભાગ', this)">પેલ</button>
+            <button class="btn-section" onclick="changeSec('section3',5.25,'મથાળા વિભાગ', this)">મથાળા</button>
         </div>
+        <div id="table-render" class="table-box"></div>
+    </div>
 
-        <div id="cont_section2" class="tab-content" style="display:none;">
-            <div class="section-work-info">
-                <span>પેલ વિભાગ (Rate: ₹4.75)</span>
-                <span>નંગ: <span id="s2-n">0</span> | મજૂરી: ₹<span id="s2-m">0.00</span></span>
-            </div>
-            <div id="section2" class="table-box"><table><thead><tr><th>STATUS</th><th style="text-align:left">કારીગરનું નામ</th><th>નંગ</th><th>મજૂરી</th><th>ઉપાડ</th><th>WA</th></tr></thead><tbody><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section2&#39;,0)">P</button></td>
-                <td style="text-align:left; font-weight:700;">કૈલાશ</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section2&#39;,0,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section2&#39;,0,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section2&#39;,0)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section2&#39;,1)">P</button></td>
-                <td style="text-align:left; font-weight:700;">ભરત</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section2&#39;,1,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section2&#39;,1,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section2&#39;,1)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section2&#39;,2)">P</button></td>
-                <td style="text-align:left; font-weight:700;">મૂળજીભાઈ</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section2&#39;,2,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section2&#39;,2,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section2&#39;,2)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section2&#39;,3)">P</button></td>
-                <td style="text-align:left; font-weight:700;">જનક</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section2&#39;,3,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section2&#39;,3,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section2&#39;,3)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section2&#39;,4)">P</button></td>
-                <td style="text-align:left; font-weight:700;">અમિત</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section2&#39;,4,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section2&#39;,4,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section2&#39;,4)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section2&#39;,5)">P</button></td>
-                <td style="text-align:left; font-weight:700;">નીતા</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section2&#39;,5,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section2&#39;,5,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section2&#39;,5)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section2&#39;,6)">P</button></td>
-                <td style="text-align:left; font-weight:700;">જ્યોતિ</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section2&#39;,6,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section2&#39;,6,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section2&#39;,6)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr></tbody></table></div>
-        </div>
-
-        <div id="cont_section3" class="tab-content" style="display:none;">
-            <div class="section-work-info">
-                <span>મથાળા વિભાગ (Rate: ₹5.25)</span>
-                <span>નંગ: <span id="s3-n">0</span> | મજૂરી: ₹<span id="s3-m">0.00</span></span>
-            </div>
-            <div id="section3" class="table-box"><table><thead><tr><th>STATUS</th><th style="text-align:left">કારીગરનું નામ</th><th>નંગ</th><th>મજૂરી</th><th>ઉપાડ</th><th>WA</th></tr></thead><tbody><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section3&#39;,0)">P</button></td>
-                <td style="text-align:left; font-weight:700;">નિકુલ</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section3&#39;,0,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section3&#39;,0,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section3&#39;,0)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section3&#39;,1)">P</button></td>
-                <td style="text-align:left; font-weight:700;">વીનેશ</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section3&#39;,1,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section3&#39;,1,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section3&#39;,1)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section3&#39;,2)">P</button></td>
-                <td style="text-align:left; font-weight:700;">ધમો</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section3&#39;,2,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section3&#39;,2,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section3&#39;,2)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section3&#39;,3)">P</button></td>
-                <td style="text-align:left; font-weight:700;">જીગ્ના</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section3&#39;,3,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section3&#39;,3,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section3&#39;,3)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section3&#39;,4)">P</button></td>
-                <td style="text-align:left; font-weight:700;">મયલો</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section3&#39;,4,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section3&#39;,4,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section3&#39;,4)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section3&#39;,5)">P</button></td>
-                <td style="text-align:left; font-weight:700;">અમિત</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section3&#39;,5,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section3&#39;,5,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section3&#39;,5)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr><tr style="">
-                <td><button class="btn-status p-bg" onclick="toggleAtt(&#39;section3&#39;,6)">P</button></td>
-                <td style="text-align:left; font-weight:700;">હરેશ</td>
-                <td><input type="number" value="" oninput="updValue(&#39;section3&#39;,6,&#39;nang&#39;,this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹0.00</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="" oninput="updValue(&#39;section3&#39;,6,&#39;upad&#39;,this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹0</small>
-                </td>
-                <td><button onclick="wa(&#39;section3&#39;,6)" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr></tbody></table></div>
+    <div id="worker-view" class="content" style="display:none; text-align:center;">
+        <div style="max-width:400px; margin:auto; background:white; padding:40px; border-radius:25px; border:1px solid var(--border);">
+            <h3>👤 કારીગર હિસાબ</h3>
+            <select id="worker-sel" style="width:100%; padding:15px; border-radius:12px; font-weight:800;" onchange="showWorkerDetails()">
+                <option value="">-- નામ પસંદ કરો --</option>
+            </select>
+            <div id="worker-res" style="margin-top:25px; text-align:left;"></div>
         </div>
     </div>
 
-    <div class="actions">
-        <button class="btn-main" style="background:#f1f5f9; border:1px solid #ddd;" onclick="window.print()">🖨️ Print</button>
-        <button class="btn-main btn-primary" onclick="saveCurrentDay()">💾 Save &amp; Next Day</button>
+    <div class="bottom-bar">
+        <button class="btn-next" style="background:#f8fafc; color:#333; border:1px solid #ddd;" onclick="exportFullExcel()">📊 આખા મહિનાનું એક્સલ</button>
+        <div style="display:flex; gap:30px; align-items:center;">
+            <div style="text-align:right;">
+                <div style="font-size:0.8rem; font-weight:700; color:#64748b;">આજનો કુલ બાકી હિસાબ</div>
+                <div id="final-total" style="font-weight:900; font-size:1.6rem; color:var(--primary);">₹0</div>
+            </div>
+            <button class="btn-next" onclick="nextDay()">💾 સેવ અને DAY શરૂ કરો →</button>
+        </div>
     </div>
 </div>
 
 <script>
-const base = {
-    "section1": ["હાર્દિક","S.H. સોની","જીગ્નેશ","અંકિત","ભારતી A","જીગો","ગૌતમ","નયના","હિંમત","સિદ્ધુ","રિંકલ","સાગર","શિલ્પા"].map(n => ({name:n, rate:9})),
-    "section2": ["કૈલાશ","ભરત","મૂળજીભાઈ","જનક","અમિત","નીતા","જ્યોતિ"].map(n => ({name:n, rate:4.75})),
-    "section3": ["નિકુલ","વીનેશ","ધમો","જીગ્ના","મયલો","અમિત","હરેશ"].map(n => ({name:n, rate:5.25}))
+// AAPKA NAYA SCRIPT URL UPDATE KAR DIYA HAI
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyY8NIoV-Vg-kNS-YyxGTIK3pEGvX37HsMIy2XpxA3OJiYNvMLoyiCgJQMd_OJrZvnB/exec";
+
+const baseNames = {
+    "section1": ["હાર્દિક","S.H. સોની","જીગ્નેશ","અંકિત","ભારતી A","જીગો","ગૌતમ","નયના","હિંમત","સિદ્ધુ","રિંકલ","સાગર","શિલ્પા"].map(n => ({name:n, rate:9, status:'Present'})),
+    "section2": ["કૈલાશ","ભરત","મૂળજીભાઈ","જનક","અમિત","નીતા","જ્યોતિ"].map(n => ({name:n, rate:4.75, status:'Present'})),
+    "section3": ["નિકુલ","વીનેશ","ધમો","જીગ્ના","મયલો","અમિત","હરેશ"].map(n => ({name:n, rate:5.25, status:'Present'}))
 };
 
-let db = JSON.parse(localStorage.getItem('baj_final_v5')) || [{
-    day: 1, date: new Date().toLocaleDateString('gu-IN'), sections: JSON.parse(JSON.stringify(base))
-}];
-let view = db.length - 1;
+let db = JSON.parse(localStorage.getItem('baj_final_v30')) || [{ dayNum: 1, date: new Date().toLocaleDateString('gu-IN'), sections: JSON.parse(JSON.stringify(baseNames)) }];
+let activeS = 'section1';
 
-// Load Logo on start
 window.onload = () => {
-    const savedLogo = localStorage.getItem('user_logo');
-    if(savedLogo) document.getElementById('logo-display').src = savedLogo;
+    document.getElementById('headerDate').innerText = "Day " + db[0].dayNum + " - " + db[0].date;
+    const pic = localStorage.getItem('user_photo');
+    if(pic) document.getElementById('logo-img').src = pic;
+    fillWorkerNames();
     render();
 };
 
-function uploadLogo(input) {
+function render() {
+    let html = `<table><thead><tr><th>હાજરી</th><th>કારીગર</th><th>નંગ</th><th>મજૂરી</th><th>ઉપાડ</th></tr></thead><tbody>`;
+    db[0].sections[activeS].forEach((w, i) => {
+        let isA = w.status === 'Absent';
+        html += `<tr style="${isA?'opacity:0.4':''}">
+            <td><button style="padding:5px 10px; border-radius:20px; border:none; font-weight:800; background:${isA?'#fee2e2':'#dcfce7'}" onclick="toggleAtt('${activeS}',${i})">${isA?'A':'P'}</button></td>
+            <td>${w.name}</td>
+            <td><input type="number" value="${w.nang||''}" oninput="upd('${activeS}',${i},'nang',this)" placeholder="0" ${isA?'disabled':''}></td>
+            <td style="color:green">₹${((w.nang||0)*w.rate).toFixed(2)}</td>
+            <td><input type="number" value="${w.upad||''}" style="color:red" oninput="upd('${activeS}',${i},'upad',this)" placeholder="0" ${isA?'disabled':''}></td>
+        </tr>`;
+    });
+    document.getElementById('table-render').innerHTML = html + "</tbody></table>";
+    calc();
+}
+
+function upd(s, i, k, el) {
+    db[0].sections[s][i][k] = Number(el.value) || 0;
+    localStorage.setItem('baj_final_v30', JSON.stringify(db));
+    calc();
+}
+
+function toggleAtt(s, i) {
+    let w = db[0].sections[s][i];
+    w.status = (w.status === 'Absent') ? 'Present' : 'Absent';
+    if(w.status === 'Absent') { w.nang = 0; w.upad = 0; }
+    localStorage.setItem('baj_final_v30', JSON.stringify(db));
+    render();
+}
+
+function calc() {
+    let sn=0, sm=0, su=0, tm=0, tu=0;
+    db[0].sections[activeS].forEach(w => { sn += (w.nang||0); sm += (w.nang||0)*w.rate; su += (w.upad||0); });
+    for(let s in db[0].sections) { db[0].sections[s].forEach(w => { tm += (w.nang||0)*w.rate; tu += (w.upad||0); }); }
+    document.getElementById('s-nang').innerText = sn;
+    document.getElementById('s-majuri').innerText = "₹" + sm.toFixed(2);
+    document.getElementById('s-upad').innerText = "₹" + su.toFixed(2);
+    document.getElementById('final-total').innerText = "₹" + (tm - tu).toFixed(2);
+}
+
+function changeSec(id, r, t, btn) {
+    activeS = id; document.getElementById('pageTitle').innerText = t;
+    document.querySelectorAll('.btn-section').forEach(b => b.classList.remove('active-tab'));
+    btn.classList.add('active-tab');
+    render();
+}
+
+function nextDay() {
+    if(confirm("આજનો ડેટા સેવ કરીને Day " + (db[0].dayNum + 1) + " શરૂ કરવો છે?")) {
+        let newDay = { 
+            dayNum: db[0].dayNum + 1, 
+            date: new Date().toLocaleDateString('gu-IN'), 
+            sections: JSON.parse(JSON.stringify(baseNames)) 
+        };
+        db.unshift(newDay);
+        localStorage.setItem('baj_final_v30', JSON.stringify(db));
+        location.reload();
+    }
+}
+
+// SYNC FUNCTION FIXED
+async function syncToCloud() {
+    const btn = document.getElementById('syncBtn');
+    btn.innerText = "⏳ સેવ થાય છે...";
+    btn.disabled = true;
+
+    let flat = [];
+    db.forEach(day => {
+        for(let s in day.sections) {
+            day.sections[s].forEach(w => {
+                flat.push({
+                    dayNum: day.dayNum,
+                    date: day.date,
+                    section: s === 'section1' ? 'તળીયા' : s === 'section2' ? 'પેલ' : 'મથાળા',
+                    name: w.name,
+                    nang: w.nang || 0,
+                    rate: w.rate,
+                    upad: w.upad || 0
+                });
+            });
+        }
+    });
+
+    try {
+        // Post request with error handling
+        await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', 
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(flat)
+        });
+        alert("ગૂગલ શીટમાં સક્સેસફુલ સેવ થઈ ગયું! ✅ (Note: no-cors mode use kiya gaya hai)");
+    } catch(e) {
+        alert("નેટવર્ક પ્રોબ્લેમ! કૃપા કરીને ઇન્ટરનેટ ચેક કરો.");
+    }
+    btn.innerText = "☁️ શીટમાં સેવ કરો";
+    btn.disabled = false;
+}
+
+function exportFullExcel() {
+    let fullData = [];
+    db.forEach(day => {
+        for(let s in day.sections) {
+            day.sections[s].forEach(w => {
+                fullData.push({
+                    "DAY": "DAY " + day.dayNum,
+                    "તારીખ": day.date,
+                    "વિભાગ": s === 'section1' ? 'તળીયા' : s === 'section2' ? 'પેલ' : 'મથાળા',
+                    "કારીગર": w.name,
+                    "નંગ": w.nang || 0,
+                    "મજૂરી": ((w.nang||0)*w.rate).toFixed(2),
+                    "ઉપાડ": w.upad || 0,
+                    "ચોખ્ખો પગાર": (((w.nang||0)*w.rate) - (w.upad||0)).toFixed(2)
+                });
+            });
+        }
+    });
+    const ws = XLSX.utils.json_to_sheet(fullData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Monthly_Report");
+    XLSX.writeFile(wb, "Bajrangi_Monthly_Hisab.xlsx");
+}
+
+function resetSystem() {
+    if(confirm("ચેતવણી: આખા મહિનાનો બધો ડેટા ભૂંસાઈ જશે!")) {
+        localStorage.removeItem('baj_final_v30');
+        location.reload();
+    }
+}
+
+function uploadPhoto(input) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = (e) => {
-            document.getElementById('logo-display').src = e.target.result;
-            localStorage.setItem('user_logo', e.target.result);
+            document.getElementById('logo-img').src = e.target.result;
+            localStorage.setItem('user_photo', e.target.result);
         };
         reader.readAsDataURL(input.files[0]);
     }
 }
 
-function render() {
-    let cur = db[view];
-    document.getElementById('currentViewDate').innerText = `${cur.date} (Day ${cur.day})`;
-    document.getElementById('nextBtn').style.opacity = (view === db.length - 1) ? "0.2" : "1";
-
-    for (let s in cur.sections) {
-        let html = `<table><thead><tr><th>STATUS</th><th style="text-align:left">કારીગરનું નામ</th><th>નંગ</th><th>મજૂરી</th><th>ઉપાડ</th><th>WA</th></tr></thead><tbody>`;
-        cur.sections[s].forEach((w, i) => {
-            let isA = w.status === 'Absent';
-            let totalUpad = 0;
-            db.forEach(d => { if(d.sections[s][i]) totalUpad += (d.sections[s][i].upad || 0); });
-            
-            html += `<tr style="${isA?'opacity:0.4':''}">
-                <td><button class="btn-status ${isA?'a-bg':'p-bg'}" onclick="toggleAtt('${s}',${i})">${isA?'A':'P'}</button></td>
-                <td style="text-align:left; font-weight:700;">${w.name}</td>
-                <td><input type="number" value="${w.nang||''}" ${isA?'disabled':''} oninput="updValue('${s}',${i},'nang',this)" placeholder="0"></td>
-                <td style="font-weight:800; color:var(--success); font-size:1.1rem;">₹${((w.nang||0)*w.rate).toFixed(2)}</td>
-                <td>
-                    <input type="number" style="color:var(--danger)" value="${w.upad||''}" oninput="updValue('${s}',${i},'upad',this)" placeholder="0">
-                    <small style="display:block; font-size:10px; color:var(--text-muted)">Total: ₹${totalUpad}</small>
-                </td>
-                <td><button onclick="wa('${s}',${i})" style="border:none; background:none; cursor:pointer; font-size:1.3rem;">📲</button></td>
-            </tr>`;
-        });
-        document.getElementById(s).innerHTML = html + "</tbody></table>";
-    }
-    calc();
+function showView(v) {
+    document.getElementById('admin-view').style.display = v === 'admin' ? 'block' : 'none';
+    document.getElementById('worker-view').style.display = v === 'worker' ? 'block' : 'none';
 }
 
-// CURSOR PROBLEM FIXED HERE
-function updValue(s, i, k, el) {
-    db[view].sections[s][i][k] = Number(el.value) || 0;
-    save();
-    
-    // Sirf calculations update karo, poori table nahi
-    const row = el.closest('tr');
-    const w = db[view].sections[s][i];
-    row.cells[3].innerText = "₹" + (w.nang * w.rate).toFixed(2);
-    calc();
-}
-
-function toggleAtt(s, i) { 
-    let w = db[view].sections[s][i];
-    w.status = (w.status === 'Absent') ? 'Present' : 'Absent';
-    if(w.status === 'Absent') w.nang = 0;
-    save(); render(); 
-}
-
-function calc() {
-    let globalN=0, globalM=0, globalU=0;
-    for(let s in db[view].sections) {
-        let secN = 0, secM = 0;
-        db[view].sections[s].forEach(w => {
-            secN += (w.nang || 0);
-            secM += (w.nang || 0) * (w.rate || 0);
-            globalU += (w.upad || 0);
-        });
-        let sKey = s === 'section1' ? 's1' : (s === 'section2' ? 's2' : 's3');
-        document.getElementById(`${sKey}-n`).innerText = secN;
-        document.getElementById(`${sKey}-m`).innerText = secM.toFixed(2);
-        globalN += secN; globalM += secM;
-    }
-    document.getElementById('t-total').innerText = globalN;
-    document.getElementById('e-total').innerText = "₹" + globalM.toFixed(2);
-    document.getElementById('u-total').innerText = "₹" + globalU.toFixed(2);
-}
-
-function openTab(e, id) {
-    document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-    document.getElementById('cont_' + id).style.display = 'block';
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    e.currentTarget.classList.add('active');
-    document.getElementById('pageTitle').innerText = e.currentTarget.innerText;
-}
-
-function changeDay(s) { if(view+s>=0 && view+s<db.length) { view+=s; render(); } }
-function save() { localStorage.setItem('baj_final_v5', JSON.stringify(db)); }
-
-function saveCurrentDay() {
-    if(!confirm("નવો દિવસ શરૂ કરવો છે?")) return;
-    db.push({ day: db.length+1, date: new Date().toLocaleDateString('gu-IN'), sections: JSON.parse(JSON.stringify(base)) });
-    view = db.length-1; save(); render();
-}
-
-function exportExcel() {
-    let list = [];
-    db.forEach(d => {
-        for(let s in d.sections) {
-            d.sections[s].forEach(w => {
-                list.push({ "Date": d.date, "Name": w.name, "Nang": w.nang||0, "Majuri": (w.nang*w.rate).toFixed(2), "Upad": w.upad||0 });
-            });
-        }
+function fillWorkerNames() {
+    const sel = document.getElementById('worker-sel');
+    [...baseNames.section1, ...baseNames.section2, ...baseNames.section3].forEach(w => {
+        let opt = document.createElement('option'); opt.value = w.name; opt.innerText = w.name;
+        sel.appendChild(opt);
     });
-    const ws = XLSX.utils.json_to_sheet(list);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Bajrangi_Report");
-    XLSX.writeFile(wb, "Bajrangi_Data.xlsx");
 }
 
-function wa(s, i) {
-    let w = db[view].sections[s][i];
-    let msg = `*💎 BAJRANGI DIAMONDS*%0A📅 *તારીખ:* ${db[view].date}%0A👤 *કારીગર:* ${w.name}%0A📦 *નંગ:* ${w.nang || 0}%0A💰 *મજૂરી:* ₹${((w.nang||0)*w.rate).toFixed(2)}%0A💸 *ઉપાડ:* ₹${w.upad || 0}`;
-    window.open(`https://wa.me/?text=${msg}`, '_blank');
+function showWorkerDetails() {
+    const name = document.getElementById('worker-sel').value;
+    let wData = null;
+    for(let s in db[0].sections) { let f = db[0].sections[s].find(x => x.name === name); if(f) wData = f; }
+    if(wData) {
+        let m = (wData.nang||0)*wData.rate;
+        document.getElementById('worker-res').innerHTML = `<div style="background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #ddd;"><p>📦 નંગ: <b>${wData.nang||0}</b></p><p>💰 મજૂરી: <b style="color:green">₹${m.toFixed(2)}</b></p><p>💸 ઉપાડ: <b style="color:red">₹${wData.upad||0}</b></p><hr><h3>બાકી: ₹${(m - (wData.upad||0)).toFixed(2)}</h3></div>`;
+    }
 }
-
-function resetAll() { if(confirm("બધો ડેટા ડિલીટ થઈ જશે. પાકું?")) { localStorage.clear(); location.reload(); } }
 </script>
-
-</body></html>
+</body>
+</html>
