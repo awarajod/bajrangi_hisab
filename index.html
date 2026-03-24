@@ -3,53 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAJRANGI DIAMONDS - FINAL</title>
+    <title>BAJRANGI DIAMONDS - OFFICIAL</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+Gujarati:wght@400;700&display=swap');
         :root { --primary: #4f46e5; --success: #10b981; --danger: #ef4444; --bg: #f8fafc; --text: #1e293b; --border: #e2e8f0; }
-        * { box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', 'Noto Sans Gujarati', sans-serif; margin: 0; background: var(--bg); display: flex; height: 100vh; overflow: hidden; }
-        .sidebar { width: 260px; background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; }
-        #logo-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; background: #eee; align-self: center; cursor: pointer; border: 3px solid #eef2ff; }
-        .nav-item { padding: 12px 15px; border-radius: 10px; cursor: pointer; color: #64748b; font-weight: 600; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; }
-        .nav-item.active { background: var(--primary); color: white; }
-        .main { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Noto Sans Gujarati', sans-serif; }
+        body { margin: 0; background: var(--bg); display: flex; height: 100vh; overflow: hidden; color: var(--text); }
+        .sidebar { width: 260px; background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; transition: 0.3s; }
+        #logo-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; background: #eee; align-self: center; cursor: pointer; border: 3px solid #eef2ff; margin-bottom: 15px; }
+        .nav-item { padding: 12px 15px; border-radius: 10px; cursor: pointer; color: #64748b; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-item.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
+        .main { flex: 1; display: flex; flex-direction: column; overflow-y: auto; position: relative; }
         header { background: white; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .content { padding: 20px; max-width: 1000px; margin: 0 auto; width: 100%; padding-bottom: 100px; }
-        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: white; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid var(--border); }
-        .stat-card b { font-size: 1.4rem; color: var(--primary); display: block; }
-        .table-card { background: white; border-radius: 15px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #f8fafc; padding: 12px; font-size: 0.75rem; color: #64748b; border-bottom: 1px solid var(--border); }
-        td { padding: 10px; text-align: center; border-bottom: 1px solid #f1f5f9; font-weight: 600; }
-        input { width: 70px; padding: 8px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-weight: 800; }
-        .btn-tab { padding: 8px 15px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; background: #e2e8f0; margin-right: 5px; }
+        .content { padding: 25px; max-width: 1000px; margin: 0 auto; width: 100%; padding-bottom: 120px; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: white; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .stat-card b { font-size: 1.4rem; color: var(--primary); display: block; margin-top: 5px; }
+        .table-card { background: white; border-radius: 15px; border: 1px solid var(--border); overflow-x: auto; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th { background: #f8fafc; padding: 14px; font-size: 0.8rem; color: #64748b; border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: 0.5px; }
+        td { padding: 12px; text-align: center; border-bottom: 1px solid #f1f5f9; font-weight: 600; }
+        input[type="number"] { width: 75px; padding: 8px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-weight: 800; font-size: 1rem; color: var(--primary); }
+        .btn-tab { padding: 10px 20px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; background: #e2e8f0; transition: 0.2s; }
         .btn-tab.active { background: var(--primary); color: white; }
-        .bottom-bar { position: fixed; bottom: 0; right: 0; left: 260px; background: white; padding: 15px 30px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .btn-main { background: var(--primary); color: white; padding: 12px 20px; border-radius: 10px; border: none; font-weight: 800; cursor: pointer; }
-        .worker-box { max-width: 400px; margin: 30px auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        select { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #ddd; font-weight: 700; }
+        .bottom-bar { position: fixed; bottom: 0; right: 0; left: 260px; background: white; padding: 15px 30px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        .btn-main { background: var(--primary); color: white; padding: 12px 25px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.2s; }
+        .btn-main:hover { opacity: 0.9; transform: translateY(-1px); }
+        .worker-box { max-width: 450px; margin: 40px auto; background: white; padding: 35px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        select { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid #e2e8f0; font-weight: 700; font-size: 1.1rem; cursor: pointer; outline: none; transition: 0.3s; }
+        select:focus { border-color: var(--primary); }
+        @media (max-width: 768px) {
+            .sidebar { width: 0; padding: 0; overflow: hidden; position: absolute; z-index: 200; height: 100%; }
+            .bottom-bar { left: 0; }
+        }
     </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <div style="text-align:center; margin-bottom:20px;">
+<div class="sidebar" id="sidebar">
+    <div style="text-align:center; margin-bottom:25px;">
         <input type="file" id="l-in" hidden onchange="upLogo(this)">
         <img id="logo-img" src="https://cdn-icons-png.flaticon.com/512/2913/2913520.png" onclick="document.getElementById('l-in').click()">
-        <h3 style="margin:10px 0 0;">BAJRANGI</h3>
+        <h3 style="margin:0; letter-spacing: 1px; color: var(--primary);">BAJRANGI</h3>
+        <small style="color: #94a3b8; font-weight: 700;">DIAMOND MANAGER</small>
     </div>
-    <div class="nav-item" id="nAd" onclick="chkAd()">📊 એડમિન</div>
-    <div class="nav-item active" id="nWo" onclick="sw('worker')">👤 કારીગર</div>
+    <div class="nav-item" id="nAd" onclick="chkAd()">📊 એડમિન પોર્ટલ</div>
+    <div class="nav-item active" id="nWo" onclick="sw('worker')">👤 કારીગર પોર્ટલ</div>
     <div style="flex:1"></div>
-    <div class="nav-item" style="color:var(--danger)" onclick="rst()">🛑 રીસેટ</div>
+    <div class="nav-item" style="color:var(--danger); border: 1px dashed var(--danger);" onclick="rst()">🛑 સિસ્ટમ રીસેટ</div>
 </div>
 
 <div class="main">
     <header>
-        <h3 id="pTit" style="margin:0">કારીગર પોર્ટલ</h3>
+        <h3 id="pTit" style="margin:0">કારીગર લોગિન</h3>
         <button id="syB" class="btn-main" style="background:var(--success); display:none;" onclick="sync()">☁️ સેવ ટુ ક્લાઉડ</button>
     </header>
 
@@ -59,32 +66,47 @@
             <div class="stat-card">મજૂરી<b id="s-m" style="color:var(--success)">₹0</b></div>
             <div class="stat-card">ઉપાડ<b id="s-u" style="color:var(--danger)">₹0</b></div>
         </div>
-        <div style="margin-bottom:15px;">
+        <div style="margin-bottom:20px; display: flex; gap: 10px;">
             <button class="btn-tab active" onclick="chS('section1',this)">તળીયા</button>
             <button class="btn-tab" onclick="chS('section2',this)">પેલ</button>
             <button class="btn-tab" onclick="chS('section3',this)">મથાળા</button>
         </div>
         <div class="table-card" id="t-ren"></div>
-        <h4>મંથલી હિસાબ</h4>
-        <div class="table-card"><table><thead><tr><th>નામ</th><th>નંગ</th><th>મજૂરી</th><th>ઉપાડ</th><th>બાકી</th></tr></thead><tbody id="s-body"></tbody></table></div>
+        
+        <h4 style="margin-top:40px; display: flex; align-items: center; gap: 10px;">📅 મંથલી ફાઈનલ રિપોર્ટ</h4>
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr><th>નામ</th><th>નંગ</th><th>મજૂરી</th><th>ઉપાડ</th><th>બાકી</th></tr>
+                </thead>
+                <tbody id="s-body"></tbody>
+            </table>
+        </div>
     </div>
 
     <div id="wo-v" class="content">
         <div class="worker-box">
-            <select id="w-sel" onchange="getWData()"><option value="">-- નામ પસંદ કરો --</option></select>
-            <div id="w-res" style="margin-top:20px;"></div>
+            <h4 style="margin-top:0; text-align:center;">તમારું નામ પસંદ કરો</h4>
+            <select id="w-sel" onchange="getWData()">
+                <option value="">-- સિલેક્ટ કરો --</option>
+            </select>
+            <div id="w-res" style="margin-top:25px;"></div>
         </div>
     </div>
 
     <div class="bottom-bar" id="bBar" style="display:none;">
-        <button class="btn-main" style="background:#eee; color:#333" onclick="exl()">📊 Excel</button>
-        <div style="text-align:right"><small>કુલ બાકી</small><div id="f-t" style="font-size:1.3rem; font-weight:900; color:var(--primary)">₹0</div></div>
+        <button class="btn-main" style="background:#f1f5f9; color:#475569" onclick="exl()">📊 EXCEL ડાઉનલોડ</button>
+        <div style="text-align:right">
+            <small style="color: #64748b; font-weight: 700;">કુલ બાકી લેણાં</small>
+            <div id="f-t" style="font-size:1.5rem; font-weight:900; color:var(--primary)">₹0</div>
+        </div>
         <button class="btn-main" onclick="nDay()">💾 નવો દિવસ</button>
     </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyY8NIoV-Vg-kNS-YyxGTIK3pEGvX37HsMIy2XpxA3OJiYNvMLoyiCgJQMd_OJrZvnB/exec";
+    // --- CONFIGURATION ---
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxwTC6kYqzLtMcGty_-g6-6zgBPLZOKDX_y1Sb6owV66ww8PUM5wJJSLw6SoccVL5eP/exec";
     const PASS = "1234";
 
     const names = {
@@ -104,7 +126,7 @@
         ren();
     };
 
-    function chkAd() { if(isAd){sw('admin');return;} if(prompt("PASS:")===PASS){isAd=true;sessionStorage.setItem('isAd','true');sw('admin');} }
+    function chkAd() { if(isAd){sw('admin');return;} if(prompt("એડમિન પાસવર્ડ:")===PASS){isAd=true;sessionStorage.setItem('isAd','true');sw('admin');} }
     
     function sw(v) {
         sessionStorage.setItem('v',v);
@@ -114,6 +136,7 @@
         document.getElementById('syB').style.display = v==='admin'?'block':'none';
         document.getElementById('nAd').className = v==='admin'?'nav-item active':'nav-item';
         document.getElementById('nWo').className = v==='worker'?'nav-item active':'nav-item';
+        document.getElementById('pTit').innerText = v==='admin'?'એડમિન કંટ્રોલ':'કારીગર પોર્ટલ';
         if(v==='admin') updS();
     }
 
@@ -125,14 +148,14 @@
     }
 
     function ren() {
-        let h = `<table><thead><tr><th>H</th><th style="text-align:left">NAME</th><th>NANG</th><th>MAJURI</th><th>UPAD</th></tr></thead><tbody>`;
+        let h = `<table><thead><tr><th>હાજરી</th><th style="text-align:left">નામ</th><th>નંગ</th><th>મજૂરી</th><th>ઉપાડ</th></tr></thead><tbody>`;
         db[0].sections[act].forEach((w,i) => {
             let isA = w.status==='A';
-            h += `<tr style="${isA?'opacity:0.3':''}">
-                <td><button style="background:${isA?'red':'green'};color:white;border:none;border-radius:50%;width:25px;height:25px;" onclick="tgl('${act}',${i})">${w.status}</button></td>
+            h += `<tr style="${isA?'background:#fff1f2; opacity:0.6':''}">
+                <td><button style="background:${isA?'#ef4444':'#10b981'};color:white;border:none;border-radius:6px;padding:4px 8px;cursor:pointer;font-weight:bold" onclick="tgl('${act}',${i})">${isA?'રજા':'હાજર'}</button></td>
                 <td style="text-align:left">${w.name}</td>
                 <td><input type="number" value="${w.nang||''}" oninput="uV('${act}',${i},'nang',this.value,this)" ${isA?'disabled':''}></td>
-                <td class="m-c">₹${((w.nang||0)*w.rate).toFixed(2)}</td>
+                <td class="m-c" style="color:var(--success)">₹${((w.nang||0)*w.rate).toFixed(2)}</td>
                 <td><input type="number" value="${w.upad||''}" oninput="uV('${act}',${i},'upad',this.value,this)" ${isA?'disabled':''}></td>
             </tr>`;
         });
@@ -152,44 +175,57 @@
 
     function updS() {
         let res = {}; db.forEach(d=>{ for(let s in d.sections) d.sections[s].forEach(w=>{ if(!res[w.name])res[w.name]={n:0,m:0,u:0}; res[w.name].n+=w.nang||0; res[w.name].m+=(w.nang||0)*w.rate; res[w.name].u+=w.upad||0; }); });
-        let h = ""; Object.keys(res).sort().forEach(n=>{ let b=res[n].m-res[n].u; if(res[n].n>0||res[n].u>0) h+=`<tr><td style="text-align:left">${n}</td><td>${res[n].n}</td><td>₹${res[n].m.toFixed(2)}</td><td>₹${res[n].u}</td><td>₹${b.toFixed(2)}</td></tr>`; });
+        let h = ""; Object.keys(res).sort().forEach(n=>{ let b=res[n].m-res[n].u; if(res[n].n>0||res[n].u>0) h+=`<tr><td style="text-align:left">${n}</td><td>${res[n].n}</td><td>₹${res[n].m.toFixed(2)}</td><td>₹${res[n].u}</td><td style="color:var(--primary)">₹${b.toFixed(2)}</td></tr>`; });
         document.getElementById('s-body').innerHTML = h;
     }
 
     async function sync() {
-        const b = document.getElementById('syB'); b.innerText="⌛...";
+        const b = document.getElementById('syB'); b.innerText="⌛ સિંક થઈ રહ્યું છે..."; b.disabled = true;
         let flat = []; db.forEach(d=>{ for(let s in d.sections) d.sections[s].forEach(w=>{ if(w.nang||w.upad) flat.push({day:d.day, date:d.date, section:s, name:w.name, nang:w.nang||0, rate:w.rate, upad:w.upad||0}); }); });
         try {
             await fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', body:JSON.stringify(flat) });
-            alert("SUCCESS! ✅");
-        } catch(e) { alert("ERR!"); }
-        b.innerText="☁️ સેવ ટુ ક્લાઉડ";
+            alert("ક્લાઉડમાં ડેટા સેવ થઈ ગયો છે! ✅");
+        } catch(e) { alert("કનેક્શનમાં ભૂલ આવી! ફરી પ્રયાસ કરો."); }
+        b.innerText="☁️ સેવ ટુ ક્લાઉડ"; b.disabled = false;
     }
 
     async function getWData() {
         const name = document.getElementById('w-sel').value; if(!name) return;
-        const res = document.getElementById('w-res'); res.innerHTML = "⌛ લોડ થઈ રહ્યો છે...";
+        const res = document.getElementById('w-res'); 
+        res.innerHTML = "<div style='text-align:center'>⌛ તમારો હિસાબ ચેક થઈ રહ્યો છે...</div>";
         try {
-            const r = await fetch(SCRIPT_URL);
+            const r = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
             const data = await r.json();
             let n=0, m=0, u=0;
-            data.forEach(row => { if(row[3] == name) { n+=Number(row[4]); m+=(Number(row[4])*Number(row[5])); u+=Number(row[6]); } });
-            if(n==0 && u==0) { res.innerHTML = "❌ ડેટા મળ્યો નથી."; return; }
-            res.innerHTML = `<div style="background:#eef2ff;padding:15px;border-radius:10px;border:2px solid var(--primary);">
-                <h3 style="margin:0 0 10px;text-align:center;">${name}</h3>
-                <p>📦 નંગ: <b>${n}</b></p>
-                <p>💰 મજૂરી: <b style="color:green">₹${m.toFixed(2)}</b></p>
-                <p>💸 ઉપાડ: <b style="color:red">₹${u}</b></p><hr>
-                <h4 style="margin:0;text-align:center;">બાકી: ₹${(m-u).toFixed(2)}</h4></div>`;
-        } catch(e) { res.innerHTML = "⚠️ નેટવર્ક પ્રોબ્લેમ!"; }
+            for(let i=1; i<data.length; i++) {
+                let row = data[i];
+                if(row[3] && row[3].toString().trim() === name.trim()) { 
+                    n += Number(row[4]) || 0; 
+                    m += (Number(row[4]) * Number(row[5])) || 0; 
+                    u += Number(row[6]) || 0; 
+                }
+            }
+            if(n==0 && u==0) { res.innerHTML = "<div style='color:orange; text-align:center; font-weight:bold'>❌ હજુ સુધી કોઈ રેકોર્ડ મળ્યો નથી.</div>"; return; }
+            res.innerHTML = `
+                <div style="background:#eef2ff;padding:25px;border-radius:20px;border:2px solid var(--primary);box-shadow: 0 10px 20px rgba(0,0,0,0.05);">
+                    <h3 style="margin:0 0 15px;text-align:center;color:var(--primary);">${name}</h3>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>📦 કુલ નંગ:</span><b>${n}</b></div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>💰 કુલ મજૂરી:</span><b style="color:var(--success)">₹${m.toFixed(2)}</b></div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>💸 કુલ ઉપાડ:</span><b style="color:var(--danger)">₹${u}</b></div>
+                    <hr style="border:0; border-top:1px dashed #cbd5e1; margin:15px 0;">
+                    <div style="display:flex; justify-content:space-between; font-size:1.2rem; font-weight:900;">
+                        <span>બાકી લેણાં:</span><span style="color:var(--primary)">₹${(m-u).toFixed(2)}</span>
+                    </div>
+                </div>`;
+        } catch(e) { res.innerHTML = "<div style='color:red; text-align:center'>⚠️ નેટવર્ક પ્રોબ્લેમ! ફરી પ્રયાસ કરો.</div>"; }
     }
 
     function upLogo(i) { if(i.files[0]){ let r=new FileReader(); r.onload=(e)=>{ document.getElementById('logo-img').src=e.target.result; localStorage.setItem('lo',e.target.result); }; r.readAsDataURL(i.files[0]); } }
     function loadSel() { const s=document.getElementById('w-sel'); let a=[]; for(let x in names) names[x].forEach(w=>a.push(w.name)); a.sort().forEach(n=>{ let o=document.createElement('option'); o.value=n; o.innerText=n; s.appendChild(o); }); }
-    function nDay() { if(confirm("નવો દિવસ?")){ db.unshift({day:db[0].day+1, date:new Date().toLocaleDateString('gu-IN'), sections:JSON.parse(JSON.stringify(names))}); localStorage.setItem('bj_v6',JSON.stringify(db)); location.reload(); } }
+    function nDay() { if(confirm("નવો દિવસ શરૂ કરવો છે? જૂનો ડેટા સેવ કરી લેજો.")){ db.unshift({day:db[0].day+1, date:new Date().toLocaleDateString('gu-IN'), sections:JSON.parse(JSON.stringify(names))}); localStorage.setItem('bj_v6',JSON.stringify(db)); location.reload(); } }
     function chS(s,b) { act=s; document.querySelectorAll('.btn-tab').forEach(x=>x.classList.remove('active')); b.classList.add('active'); ren(); }
-    function rst() { if(prompt("PASS:")===PASS){localStorage.clear();location.reload();} }
-    function exl() { let l=[]; db.forEach(d=>{ for(let s in d.sections) d.sections[s].forEach(w=>{ if(w.nang||w.upad) l.push({Day:d.day,Date:d.date,Name:w.name,Nang:w.nang,Majuri:w.nang*w.rate,Upad:w.upad}); }); }); const ws=XLSX.utils.json_to_sheet(l); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,"Data"); XLSX.writeFile(wb,"Report.xlsx"); }
+    function rst() { if(prompt("રીસેટ કરવા માટે પાસવર્ડ:")===PASS){localStorage.clear(); sessionStorage.clear(); location.reload();} }
+    function exl() { let l=[]; db.forEach(d=>{ for(let s in d.sections) d.sections[s].forEach(w=>{ if(w.nang||w.upad) l.push({દિવસ:d.day,તારીખ:d.date,નામ:w.name,નંગ:w.nang,મજૂરી:w.nang*w.rate,ઉપાડ:w.upad}); }); }); const ws=XLSX.utils.json_to_sheet(l); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,"Data"); XLSX.writeFile(wb,"Bajrangi_Report.xlsx"); }
 </script>
 </body>
 </html>
