@@ -16,6 +16,7 @@
         * { box-sizing: border-box; transition: all 0.2s ease; }
         body { font-family: 'Plus Jakarta Sans', 'Noto Sans Gujarati', sans-serif; margin: 0; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
+        /* SIDEBAR */
         .sidebar { width: 280px; background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 25px; box-shadow: 2px 0 10px rgba(0,0,0,0.02); }
         .logo-box { text-align: center; margin-bottom: 30px; }
         #logo-img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-light); background: #f1f5f9; cursor: pointer; }
@@ -23,12 +24,15 @@
         .tagline { font-size: 0.85rem; font-weight: 700; color: var(--primary); }
 
         .nav-item { padding: 14px 18px; border-radius: 12px; cursor: pointer; color: #64748b; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nav-item:hover { background: #f1f5f9; color: var(--primary); }
         .nav-item.active { background: var(--primary); color: white; box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3); }
 
+        /* MAIN CONTENT */
         .main { flex: 1; display: flex; flex-direction: column; overflow-y: auto; position: relative; }
         header { background: white; padding: 20px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .content { padding: 30px 40px; max-width: 1200px; margin: 0 auto; width: 100%; padding-bottom: 120px; }
 
+        /* CARDS & TABLES */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
         .stat-card { background: white; padding: 20px; border-radius: 20px; text-align: center; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .stat-card span { display: block; font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-top: 5px; }
@@ -42,12 +46,15 @@
         th { background: #f8fafc; padding: 16px; font-size: 0.8rem; text-transform: uppercase; color: #64748b; border-bottom: 1px solid var(--border); }
         td { padding: 14px; text-align: center; border-bottom: 1px solid #f1f5f9; font-weight: 600; }
         
+        /* CURSOR FIX: No Table Refresh on Input */
         input { width: 85px; padding: 10px; border: 2px solid #f1f5f9; border-radius: 10px; text-align: center; font-weight: 800; color: var(--text); }
         input:focus { border-color: var(--primary); outline: none; background: #f0f7ff; }
 
+        /* WORKER VIEW */
         .worker-card { max-width: 500px; margin: 50px auto; background: white; padding: 40px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid var(--border); }
         select { width: 100%; padding: 16px; border-radius: 15px; border: 2px solid var(--border); font-size: 1rem; font-weight: 700; cursor: pointer; margin-bottom: 20px; }
 
+        /* BOTTOM ACTION BAR */
         .bottom-bar { position: fixed; bottom: 0; right: 0; left: 280px; background: white; padding: 20px 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; z-index: 101; }
         .btn-main { background: var(--primary); color: white; padding: 14px 28px; border-radius: 14px; border: none; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; }
         .btn-main:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3); }
@@ -125,7 +132,7 @@
 </div>
 
 <script>
-    // --- APKA URL SET KAR DIYA HAI ---
+    // !!! YAHAN APNI GOOGLE SCRIPT URL DALO !!!
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyY8NIoV-Vg-kNS-YyxGTIK3pEGvX37HsMIy2XpxA3OJiYNvMLoyiCgJQMd_OJrZvnB/exec";
     const ADMIN_PASS = "1234";
 
@@ -166,12 +173,15 @@
         if(v === 'admin') updateMonthlySummary();
     }
 
+    // CURSOR FIX: Update values without redrawing the whole table
     function updateVal(s, i, key, val, el) {
         db[0].sections[s][i][key] = Number(val) || 0;
         localStorage.setItem('bajrangi_db_v5', JSON.stringify(db));
+        
         let row = el.closest('tr');
         let majuri = (db[0].sections[s][i].nang || 0) * db[0].sections[s][i].rate;
         row.querySelector('.row-majuri').innerText = "₹" + majuri.toFixed(2);
+        
         calculateStats();
     }
 
@@ -201,6 +211,7 @@
         let sn=0, sm=0, su=0, tm=0, tu=0;
         db[0].sections[activeS].forEach(w => { sn += (w.nang||0); sm += (w.nang||0)*w.rate; su += (w.upad||0); });
         db.forEach(d => { for(let s in d.sections) d.sections[s].forEach(w => { tm += (w.nang||0)*w.rate; tu += (w.upad||0); }); });
+        
         document.getElementById('s-nang').innerText = sn;
         document.getElementById('s-majuri').innerText = "₹" + sm.toFixed(2);
         document.getElementById('s-upad').innerText = "₹" + su.toFixed(2);
@@ -215,6 +226,7 @@
             summary[w.name].m += (w.nang||0)*w.rate;
             summary[w.name].u += (w.upad||0);
         }); });
+        
         let html = "";
         Object.keys(summary).sort().forEach(name => {
             let data = summary[name];
@@ -225,28 +237,33 @@
         document.getElementById('summary-body').innerHTML = html;
     }
 
+    // CLOUD SYNC
     async function syncToCloud() {
         const btn = document.getElementById('syncBtn'); btn.innerText = "⏳ સેવિંગ..."; btn.disabled = true;
         let flatData = [];
         db.forEach(d => { for(let s in d.sections) d.sections[s].forEach(w => {
             if(w.nang || w.upad) flatData.push({day:d.dayNum, date:d.date, section:s, name:w.name, nang:w.nang||0, rate:w.rate, upad:w.upad||0});
         }); });
+
         try {
             await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(flatData) });
-            alert("ડેટા ક્લાઉડમાં સેવ થઈ ગયો! ✅");
-        } catch(e) { alert("Internet Check Karo!"); }
+            alert("ડેટા સફળતાપૂર્વક ક્લાઉડમાં સેવ થઈ ગયો! ✅");
+        } catch(e) { alert("Error: ઇન્ટરનેટ ચેક કરો!"); }
         btn.innerText = "☁️ સેવ ટુ ક્લાઉડ"; btn.disabled = false;
     }
 
+    // WORKER FETCH
     async function fetchWorkerData() {
         const name = document.getElementById('worker-sel').value;
         if(!name) return;
         const resDiv = document.getElementById('worker-res');
-        resDiv.innerHTML = "<p style='text-align:center; color:orange;'>⌛ લોડ થઈ રહ્યો છે...</p>";
+        resDiv.innerHTML = "<p style='text-align:center; color:orange; font-weight:800;'>⌛ ક્લાઉડમાંથી હિસાબ ખેંચાઈ રહ્યો છે...</p>";
+        
         try {
             const resp = await fetch(SCRIPT_URL);
             const data = await resp.json();
             let tn=0, tm=0, tu=0;
+            
             data.slice(1).forEach(row => {
                 if(row[2] && row[2].toString().trim() === name.trim()) {
                     tn += Number(row[3]) || 0;
@@ -254,14 +271,17 @@
                     tu += Number(row[5]) || 0;
                 }
             });
-            resDiv.innerHTML = `<div style="background:var(--primary-light); padding:20px; border-radius:20px; border:2px solid var(--primary); margin-top:15px;">
-                <h3 style="text-align:center;">${name}</h3>
-                <p>📦 નંગ: <b>${tn}</b></p>
-                <p>💰 મજૂરી: <b style="color:var(--success)">₹${tm.toFixed(2)}</b></p>
-                <p>💸 ઉપાડ: <b style="color:var(--danger)">₹${tu}</b></p>
-                <hr><h3 style="text-align:center; margin:0;">બાકી: ₹${(tm - tu).toFixed(2)}</h3>
-            </div>`;
-        } catch(e) { resDiv.innerHTML = "<p style='color:red;'>⚠️ Sync Check Karo!</p>"; }
+            
+            resDiv.innerHTML = `
+                <div style="background:var(--primary-light); padding:25px; border-radius:20px; border:2px solid var(--primary); margin-top:20px;">
+                    <h3 style="margin-top:0; color:var(--primary); text-align:center;">${name}</h3>
+                    <p>📦 કુલ નંગ: <b>${tn}</b></p>
+                    <p>💰 કુલ મજૂરી: <b style="color:var(--success)">₹${tm.toFixed(2)}</b></p>
+                    <p>💸 કુલ ઉપાડ: <b style="color:var(--danger)">₹${tu}</b></p>
+                    <hr style="border:1px solid #ddd; margin:15px 0;">
+                    <h3 style="margin:0; text-align:center;">બાકી લેવાના: ₹${(tm - tu).toFixed(2)}</h3>
+                </div>`;
+        } catch(e) { resDiv.innerHTML = "<p style='color:red; text-align:center;'>⚠️ ભૂલ: એડમિનને 'Sync' કરવા કહો.</p>"; }
     }
 
     function uploadLogo(input) {
@@ -276,7 +296,7 @@
     }
 
     function startNewDay() {
-        if(confirm("નવો દિવસ શરૂ કરવો છે?")) {
+        if(confirm("શું તમે ખરેખર નવો દિવસ શરૂ કરવા માંગો છો? (જૂનો ડેટા સેવ રહેશે)")) {
             db.unshift({ dayNum: db[0].dayNum + 1, date: new Date().toLocaleDateString('gu-IN'), sections: JSON.parse(JSON.stringify(baseNames)) });
             localStorage.setItem('bajrangi_db_v5', JSON.stringify(db));
             location.reload();
@@ -308,7 +328,7 @@
         XLSX.writeFile(wb, "Bajrangi_Report.xlsx");
     }
 
-    function resetApp() { if(prompt("RESET PASSWORD:") === ADMIN_PASS) { localStorage.clear(); location.reload(); } }
+    function resetApp() { if(prompt("ENTER PASSWORD TO RESET ALL:") === ADMIN_PASS) { localStorage.clear(); location.reload(); } }
 </script>
 </body>
 </html>
