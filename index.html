@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BAJRANGI DIAMONDS - SECURE</title>
+<title>BAJRANGI DIAMONDS - ADMIN PRO</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+Gujarati:wght@400;700&family=Noto+Serif+Gujarati:wght@900&display=swap');
     :root { --primary: #4338ca; --primary-light: #eef2ff; --bg: #f8fafc; --success: #059669; --danger: #dc2626; --border: #e2e8f0; --text-main: #1e293b; --text-sub: #64748b; }
     body { font-family: 'Plus Jakarta Sans', 'Noto Sans Gujarati', sans-serif; margin: 0; background: var(--bg); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
     
-    /* SIDEBAR */
     .sidebar { width: 280px; background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 24px; box-shadow: 4px 0 10px rgba(0,0,0,0.02); }
     .logo-box { text-align: center; margin-bottom: 30px; }
     .brand-name { font-size: 1.4rem; font-weight: 800; color: #1e1b4b; margin-bottom: 15px; display: block; }
     .image-container { position: relative; width: 110px; height: 110px; margin: 0 auto; }
-    #logo-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-light); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    #logo-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-light); }
     .upload-btn { position: absolute; bottom: 0; right: 0; background: var(--primary); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid white; }
     .tagline-1 { font-family: 'Noto Serif Gujarati'; font-size: 1.5rem; font-weight: 900; color: var(--primary); margin-top: 15px; line-height: 1; }
     .tagline-2 { font-family: 'Noto Sans Gujarati'; font-size: 1.1rem; font-weight: 700; color: #64748b; margin-top: 5px; }
@@ -24,7 +23,7 @@
     .nav-item:hover { background: var(--primary-light); }
     .nav-item.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(67, 56, 202, 0.25); }
     
-    .main { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 100px; }
+    .main { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 120px; }
     header { background: white; padding: 18px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
     .btn-sync { background: var(--success); color: white; padding: 10px 20px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
     
@@ -37,14 +36,16 @@
     .btn-section { background: transparent; color: var(--text-sub); padding: 10px 24px; font-weight: 700; border-radius: 10px; border: none; cursor: pointer; }
     .btn-section.active-tab { background: white; color: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
     
-    .table-box { background: white; border-radius: 20px; border: 1px solid var(--border); overflow: hidden; }
+    .table-box { background: white; border-radius: 20px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 40px; }
     table { width: 100%; border-collapse: collapse; }
     th { background: #f8fafc; padding: 16px; color: var(--text-sub); font-size: 0.75rem; border-bottom: 1px solid var(--border); }
     td { padding: 14px; border-bottom: 1px solid #f1f5f9; text-align: center; font-weight: 600; }
     input { border: 2px solid #f1f5f9; padding: 8px; border-radius: 8px; width: 80px; text-align: center; font-weight: 800; font-family: inherit; }
     
-    .bottom-bar { position: fixed; bottom: 0; right: 0; left: 280px; background: white; padding: 20px 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .bottom-bar { position: fixed; bottom: 0; right: 0; left: 280px; background: white; padding: 20px 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; z-index: 101; }
     .btn-main { background: var(--primary); color: white; padding: 14px 28px; border-radius: 14px; border: none; font-weight: 800; cursor: pointer; }
+    
+    .summary-title { font-size: 1.2rem; font-weight: 800; margin: 40px 0 20px 0; color: #1e1b4b; display: flex; align-items: center; gap: 10px; }
 </style>
 </head>
 <body>
@@ -69,7 +70,7 @@
 
 <div class="main">
     <header>
-        <h2 id="pageTitle" style="margin:0; font-weight:800; color:#1e1b4b;">કારીગર પોર્ટલ</h2>
+        <h2 id="pageTitle">કારીગર પોર્ટલ</h2>
         <div style="display:flex; gap:20px; align-items:center;">
             <div id="headerDate" style="font-weight:700; color:var(--text-sub); background:var(--primary-light); padding:8px 15px; border-radius:10px;"></div>
             <button id="syncBtn" class="btn-sync" onclick="syncToCloud()" style="display:none;">☁️ ક્લાઉડમાં સેવ કરો</button>
@@ -78,16 +79,34 @@
 
     <div id="admin-view" class="content" style="display:none;">
         <div class="stats">
-            <div class="stat-card"><h4>કુલ નંગ</h4><span class="val" id="s-nang">0</span></div>
-            <div class="stat-card"><h4>કુલ મજૂરી</h4><span class="val" id="s-majuri" style="color:var(--success)">₹0</span></div>
-            <div class="stat-card"><h4>કુલ ઉપાડ</h4><span class="val" id="s-upad" style="color:var(--danger)">₹0</span></div>
+            <div class="stat-card"><h4>આજના કુલ નંગ</h4><span class="val" id="s-nang">0</span></div>
+            <div class="stat-card"><h4>આજની મજૂરી</h4><span class="val" id="s-majuri" style="color:var(--success)">₹0</span></div>
+            <div class="stat-card"><h4>આજનો ઉપાડ</h4><span class="val" id="s-upad" style="color:var(--danger)">₹0</span></div>
         </div>
+        
         <div class="tab-container">
             <button id="btn1" class="btn-section active-tab" onclick="changeSec('section1', 9, 'તળીયા વિભાગ', this)">તળીયા</button>
             <button id="btn2" class="btn-section" onclick="changeSec('section2', 4.75, 'પેલ વિભાગ', this)">પેલ</button>
             <button id="btn3" class="btn-section" onclick="changeSec('section3', 5.25, 'મથાળા વિભાગ', this)">મથાળા</button>
         </div>
+        
         <div id="table-render" class="table-box"></div>
+
+        <div class="summary-title">📅 મંથલી સમરી (બધા કારીગર)</div>
+        <div class="table-box">
+            <table id="summary-table">
+                <thead>
+                    <tr style="background:#f1f5f9">
+                        <th>કારીગરનું નામ</th>
+                        <th>કુલ નંગ</th>
+                        <th>કુલ મજૂરી</th>
+                        <th>કુલ ઉપાડ</th>
+                        <th>બાકી લેવાના</th>
+                    </tr>
+                </thead>
+                <tbody id="summary-body"></tbody>
+            </table>
+        </div>
     </div>
 
     <div id="worker-view" class="content" style="text-align:center;">
@@ -101,10 +120,10 @@
     </div>
 
     <div class="bottom-bar" id="bottomBar" style="display:none;">
-        <button class="btn-main" style="background:#f1f5f9; color:#333; border:1px solid #ddd;" onclick="exportFullExcel()">📊 એક્સલ</button>
+        <button class="btn-main" style="background:#f1f5f9; color:#333; border:1px solid #ddd;" onclick="exportFullExcel()">📊 એક્સલ રિપોર્ટ</button>
         <div style="display:flex; gap:40px; align-items:center;">
             <div style="text-align:right;">
-                <div style="font-size:0.8rem; font-weight:700; color:var(--text-sub);">કુલ બાકી પેમેન્ટ</div>
+                <div style="font-size:0.8rem; font-weight:700; color:var(--text-sub);">કુલ બાકી પેમેન્ટ (બધા દિવસનું)</div>
                 <div id="final-total" style="font-weight:900; font-size:1.8rem; color:var(--primary);">₹0</div>
             </div>
             <button class="btn-main" onclick="nextDay()">💾 સેવ અને નવો દિવસ →</button>
@@ -114,7 +133,7 @@
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyY8NIoV-Vg-kNS-YyxGTIK3pEGvX37HsMIy2XpxA3OJiYNvMLoyiCgJQMd_OJrZvnB/exec";
-const ADMIN_PASS = "1234"; // YAHAN PASSWORD BADAL SAKTE HO
+const ADMIN_PASS = "1234"; 
 
 const baseNames = {
     "section1": ["હાર્દિક","S.H. સોની","જીગ્નેશ","અંકિત","ભારતી A","જીગો","ગૌતમ","નયના","હિંમત","સિદ્ધુ","રિંકલ","સાગર","શિલ્પા"].map(n => ({name:n, rate:9, status:'Present'})),
@@ -124,34 +143,45 @@ const baseNames = {
 
 let db = JSON.parse(localStorage.getItem('baj_final_v30')) || [{ dayNum: 1, date: new Date().toLocaleDateString('gu-IN'), sections: JSON.parse(JSON.stringify(baseNames)) }];
 let activeS = 'section1';
-let isAdmin = false;
+let isAdmin = (sessionStorage.getItem('isAdmin') === 'true');
 
 window.onload = () => {
     document.getElementById('headerDate').innerText = "Day " + db[0].dayNum + " | " + db[0].date;
     const pic = localStorage.getItem('user_photo');
     if(pic) document.getElementById('logo-img').src = pic;
     fillWorkerNames();
+    
+    let lastView = sessionStorage.getItem('currentView') || 'worker';
+    if(lastView === 'admin' && isAdmin) {
+        showView('admin');
+    } else {
+        showView('worker');
+    }
     render();
+    if(isAdmin) updateSummary();
 };
 
 function checkAdminAccess() {
+    if(isAdmin) { showView('admin'); return; }
     let p = prompt("એડમિન પાસવર્ડ નાખો:");
     if(p === ADMIN_PASS) {
         isAdmin = true;
+        sessionStorage.setItem('isAdmin', 'true');
         showView('admin');
-    } else {
-        alert("ખોટો પાસવર્ડ!");
-    }
+        updateSummary();
+    } else { alert("ખોટો પાસવર્ડ!"); }
 }
 
 function showView(v) {
+    sessionStorage.setItem('currentView', v);
     document.getElementById('admin-view').style.display = v === 'admin' ? 'block' : 'none';
     document.getElementById('worker-view').style.display = v === 'worker' ? 'block' : 'none';
     document.getElementById('bottomBar').style.display = v === 'admin' ? 'flex' : 'none';
     document.getElementById('syncBtn').style.display = v === 'admin' ? 'block' : 'none';
     document.getElementById('navAdmin').classList.toggle('active', v === 'admin');
     document.getElementById('navWorker').classList.toggle('active', v === 'worker');
-    document.getElementById('pageTitle').innerText = v === 'admin' ? 'તળીયા વિભાગ' : 'કારીગર પોર્ટલ';
+    document.getElementById('pageTitle').innerText = v === 'admin' ? 'એડમિન ડેશબોર્ડ' : 'કારીગર પોર્ટલ';
+    if(v === 'admin') updateSummary();
 }
 
 function render() {
@@ -178,6 +208,7 @@ function upd(s, i, k, el) {
         row.cells[3].innerText = "₹" + (db[0].sections[s][i].nang * db[0].sections[s][i].rate).toFixed(2);
     }
     calc();
+    updateSummary();
 }
 
 function toggleAtt(s, i) {
@@ -186,6 +217,7 @@ function toggleAtt(s, i) {
     if(w.status === 'Absent') { w.nang = 0; w.upad = 0; }
     localStorage.setItem('baj_final_v30', JSON.stringify(db));
     render();
+    updateSummary();
 }
 
 function calc() {
@@ -198,8 +230,37 @@ function calc() {
     document.getElementById('final-total').innerText = "₹" + (tm - tu).toFixed(2);
 }
 
+function updateSummary() {
+    let summaryData = {};
+    db.forEach(d => {
+        for(let s in d.sections) {
+            d.sections[s].forEach(w => {
+                if(!summaryData[w.name]) summaryData[w.name] = { nang:0, maj:0, upad:0 };
+                summaryData[w.name].nang += (w.nang||0);
+                summaryData[w.name].maj += (w.nang||0)*w.rate;
+                summaryData[w.name].upad += (w.upad||0);
+            });
+        }
+    });
+    let html = "";
+    Object.keys(summaryData).sort().forEach(name => {
+        let sd = summaryData[name];
+        let bal = sd.maj - sd.upad;
+        if(sd.nang > 0 || sd.upad > 0) {
+            html += `<tr>
+                <td style="text-align:left">${name}</td>
+                <td>${sd.nang}</td>
+                <td style="color:var(--success)">₹${sd.maj.toFixed(2)}</td>
+                <td style="color:var(--danger)">₹${sd.upad}</td>
+                <td style="background:#f8fafc; font-weight:800; color:var(--primary)">₹${bal.toFixed(2)}</td>
+            </tr>`;
+        }
+    });
+    document.getElementById('summary-body').innerHTML = html;
+}
+
 function changeSec(id, r, t, btn) {
-    activeS = id; document.getElementById('pageTitle').innerText = t;
+    activeS = id;
     document.querySelectorAll('.btn-section').forEach(b => b.classList.remove('active-tab'));
     btn.classList.add('active-tab');
     render();
@@ -213,15 +274,15 @@ function fillWorkerNames() {
 
 function showWorkerDetails() {
     const name = document.getElementById('worker-sel').value;
-    if(!name) return;
+    if(!name) { document.getElementById('worker-res').innerHTML = ""; return; }
     let tn=0, tm=0, tu=0;
     db.forEach(d => { for(let s in d.sections) { let f = d.sections[s].find(x => x.name === name); if(f) { tn += (f.nang||0); tm += (f.nang||0)*f.rate; tu += (f.upad||0); } } });
     document.getElementById('worker-res').innerHTML = `
-        <div style="background:var(--primary-light); padding:20px; border-radius:15px; border:2px solid var(--primary);">
+        <div style="background:var(--primary-light); padding:20px; border-radius:15px; border:1px solid var(--primary);">
             <p>📦 કુલ નંગ: <b>${tn}</b></p>
             <p>💰 કુલ મજૂરી: <b style="color:var(--success)">₹${tm.toFixed(2)}</b></p>
             <p>💸 કુલ ઉપાડ: <b style="color:var(--danger)">₹${tu}</b></p>
-            <hr><h3 style="margin:0;">બાકી લેવાના: ₹${(tm - tu).toFixed(2)}</h3>
+            <hr><h3 style="margin:0; color:var(--primary)">બાકી લેવાના: ₹${(tm - tu).toFixed(2)}</h3>
         </div>`;
 }
 
@@ -235,22 +296,24 @@ async function syncToCloud() {
 
 function nextDay() {
     if(!isAdmin) return;
-    if(confirm("નવો દિવસ શરૂ કરવો છે?")) {
+    if(confirm("આજનો હિસાબ સેવ કરીને નવો દિવસ શરૂ કરવો છે?")) {
         let newDay = { dayNum: db[0].dayNum + 1, date: new Date().toLocaleDateString('gu-IN'), sections: JSON.parse(JSON.stringify(baseNames)) };
-        db.unshift(newDay); localStorage.setItem('baj_final_v30', JSON.stringify(db)); location.reload();
+        db.unshift(newDay); localStorage.setItem('baj_final_v30', JSON.stringify(db)); 
+        sessionStorage.setItem('currentView', 'admin'); 
+        location.reload();
     }
 }
 
 function exportFullExcel() {
     let list = []; db.forEach(d => { for(let s in d.sections) d.sections[s].forEach(w => list.push({Day:d.dayNum, Date:d.date, Name:w.name, Nang:w.nang||0, Majuri:(w.nang||0)*w.rate, Upad:w.upad||0})); });
-    const ws = XLSX.utils.json_to_sheet(list); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Hisab"); XLSX.writeFile(wb, "Bajrangi_Report.xlsx");
+    const ws = XLSX.utils.json_to_sheet(list); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Hisab"); XLSX.writeFile(wb, "Bajrangi_Monthly_Report.xlsx");
 }
 
 function uploadPhoto(input) { if (input.files && input.files[0]) { const reader = new FileReader(); reader.onload = (e) => { document.getElementById('logo-img').src = e.target.result; localStorage.setItem('user_photo', e.target.result); }; reader.readAsDataURL(input.files[0]); } }
 function resetSystem() { 
     let p = prompt("ડેટા સાફ કરવા માટે એડમિન પાસવર્ડ નાખો:");
     if(p === ADMIN_PASS) {
-        if(confirm("બધો ડેટા સાફ થઈ જશે?")) { localStorage.removeItem('baj_final_v30'); location.reload(); }
+        if(confirm("બધો ડેટા સાફ થઈ જશે?")) { localStorage.removeItem('baj_final_v30'); sessionStorage.clear(); location.reload(); }
     } else { alert("ખોટો પાસવર્ડ!"); }
 }
 </script>
