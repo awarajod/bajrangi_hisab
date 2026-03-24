@@ -3,132 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BAJRANGI DIAMONDS - ULTIMATE</title>
+<title>BAJRANGI DIAMONDS - OFFICIAL</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+Gujarati:wght@400;700&display=swap');
-    
-    :root { 
-        --primary: #6366f1; --primary-dark: #4f46e5; --success: #10b981; 
-        --danger: #ef4444; --bg: #f3f4f6; --card: #ffffff; --text: #1f2937;
-    }
-
-    * { box-sizing: border-box; transition: all 0.2s ease; }
+    :root { --primary: #4f46e5; --success: #10b981; --danger: #ef4444; --bg: #f3f4f6; --text: #1f2937; }
+    * { box-sizing: border-box; }
     body { font-family: 'Plus Jakarta Sans', 'Noto Sans Gujarati', sans-serif; margin: 0; background: var(--bg); color: var(--text); display: flex; height: 100vh; }
-
-    /* SIDEBAR */
-    .sidebar { width: 280px; background: white; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; padding: 25px; }
-    .brand { text-align: center; margin-bottom: 30px; }
-    .brand h2 { font-weight: 800; font-size: 1.2rem; color: #111827; margin: 0 0 15px 0; letter-spacing: -0.5px; }
-    #logo-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid #f3f4f6; margin-bottom: 10px; }
     
-    .nav-btn { 
-        padding: 12px 15px; border-radius: 12px; cursor: pointer; color: #6b7280; 
-        font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 12px;
-    }
-    .nav-btn:hover { background: #f9fafb; color: var(--primary); }
-    .nav-btn.active { background: var(--primary); color: white; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3); }
+    .sidebar { width: 260px; background: white; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; padding: 20px; }
+    .logo-area { text-align: center; margin-bottom: 25px; }
+    #logo-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--bg); background: #eee; }
+    .nav-btn { padding: 12px; border-radius: 10px; cursor: pointer; color: #6b7280; font-weight: 600; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; }
+    .nav-btn.active { background: var(--primary); color: white; }
 
-    /* MAIN AREA */
-    .main { flex: 1; overflow-y: auto; padding-bottom: 100px; }
-    header { 
-        background: white; padding: 20px 40px; display: flex; justify-content: space-between; 
-        align-items: center; position: sticky; top: 0; z-index: 50; border-bottom: 1px solid #e5e7eb;
-    }
-    .content { padding: 30px 40px; max-width: 1200px; margin: 0 auto; }
+    .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+    header { background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 100; }
+    .content { padding: 25px; max-width: 1200px; margin: 0 auto; width: 100%; }
 
-    /* CARDS & TABLES */
-    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
-    .stat-card { background: white; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .stat-card span { font-size: 1.8rem; font-weight: 800; color: var(--primary); display: block; }
-    
-    .table-container { background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
+    .stat-card { background: white; padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .stat-card b { font-size: 1.5rem; color: var(--primary); display: block; }
+
+    .table-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; margin-bottom: 25px; }
     table { width: 100%; border-collapse: collapse; }
-    th { background: #f9fafb; padding: 18px; font-size: 0.8rem; text-transform: uppercase; color: #6b7280; text-align: center; }
-    td { padding: 15px; border-bottom: 1px solid #f3f4f6; text-align: center; font-weight: 600; }
+    th { background: #f9fafb; padding: 12px; font-size: 0.8rem; color: #6b7280; border-bottom: 1px solid #eee; }
+    td { padding: 10px; border-bottom: 1px solid #f9fafb; text-align: center; font-weight: 600; }
+    input { width: 75px; padding: 8px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-weight: 700; }
 
-    input { 
-        width: 90px; padding: 10px; border: 2px solid #e5e7eb; border-radius: 10px; 
-        text-align: center; font-family: inherit; font-weight: 700; color: var(--text);
-    }
-    input:focus { border-color: var(--primary); outline: none; background: #f0f7ff; }
+    .btn-tab { padding: 10px 20px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; margin-right: 5px; background: #e5e7eb; }
+    .btn-tab.active { background: var(--primary); color: white; }
 
-    .btn-tab { padding: 12px 25px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; background: #e5e7eb; color: #4b5563; margin-right: 10px; }
-    .btn-tab.active { background: white; color: var(--primary); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .bottom-bar { position: fixed; bottom: 0; right: 0; left: 260px; background: white; padding: 15px 30px; border-top: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+    .btn-action { background: var(--primary); color: white; padding: 10px 20px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
 
-    /* BOTTOM BAR */
-    .bottom-bar { 
-        position: fixed; bottom: 0; right: 0; left: 280px; background: white; 
-        padding: 15px 40px; border-top: 1px solid #e5e7eb; display: flex; 
-        justify-content: space-between; align-items: center; 
-    }
-    .btn-action { background: var(--primary); color: white; padding: 12px 24px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; }
-    .btn-action:hover { background: var(--primary-dark); transform: translateY(-1px); }
-
-    /* WORKER VIEW CUSTOM */
-    .worker-box { max-width: 500px; margin: 40px auto; background: white; padding: 40px; border-radius: 30px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-    select { width: 100%; padding: 15px; border-radius: 15px; border: 2px solid #e5e7eb; font-size: 1rem; font-weight: 700; margin-bottom: 20px; }
+    .worker-box { max-width: 450px; margin: 50px auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    select { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #eee; font-size: 1rem; font-weight: 700; }
 </style>
 </head>
 <body>
 
 <div class="sidebar">
-    <div class="brand">
-        <h2>BAJRANGI DIAMONDS</h2>
-        <img id="logo-img" src="https://via.placeholder.com/100" alt="Logo">
-        <div style="font-weight: 800; color: var(--primary);">ચમક આપકી, હિસાબ હમારા</div>
+    <div class="logo-area">
+        <img id="logo-img" src="https://cdn-icons-png.flaticon.com/512/2913/2913520.png" alt="Logo">
+        <input type="file" id="logo-upload" hidden accept="image/*" onchange="handleLogo(this)">
+        <p onclick="document.getElementById('logo-upload').click()" style="cursor:pointer; font-size: 0.7rem; color: var(--primary); font-weight: 800;">PHOTO CHANGE</p>
+        <h3 style="margin:5px 0; font-size: 1rem;">BAJRANGI DIAMONDS</h3>
     </div>
-    <div class="nav-btn" id="navAdmin" onclick="checkAdminAccess()">📊 મેઈન ડેશબોર્ડ</div>
-    <div class="nav-btn" id="navWorker" onclick="showView('worker')">👤 કારીગર પોર્ટલ</div>
+    <div class="nav-btn" id="navAdmin" onclick="checkAdmin()">📊 ADMIN DASHBOARD</div>
+    <div class="nav-btn active" id="navWorker" onclick="showView('worker')">👤 WORKER PORTAL</div>
     <div style="flex:1"></div>
-    <div class="nav-btn" style="color:var(--danger)" onclick="resetSystem()">🛑 રીસેટ ડેટા</div>
+    <div class="nav-btn" style="color:var(--danger)" onclick="resetAll()">🛑 RESET DATA</div>
 </div>
 
 <div class="main">
     <header>
-        <h2 id="pageTitle" style="margin:0">કારીગર પોર્ટલ</h2>
+        <h3 id="pageTitle" style="margin:0">Worker Portal</h3>
         <div id="headerDate" style="font-weight:700; color:#6b7280"></div>
-        <button id="syncBtn" class="btn-action" style="background:var(--success); display:none;" onclick="syncToCloud()">☁️ સેવ ટુ ક્લાઉડ</button>
+        <button id="syncBtn" class="btn-action" style="background:var(--success); display:none;" onclick="syncToCloud()">☁️ SYNC TO CLOUD</button>
     </header>
 
     <div id="admin-view" class="content" style="display:none;">
-        <div class="stats-grid">
-            <div class="stat-card"><p>નંગ</p><span id="s-nang">0</span></div>
-            <div class="stat-card"><p>મજૂરી</p><span id="s-majuri" style="color:var(--success)">₹0</span></div>
-            <div class="stat-card"><p>ઉપાડ</p><span id="s-upad" style="color:var(--danger)">₹0</span></div>
+        <div class="stats">
+            <div class="stat-card"><p>TOTAL NANG</p><b id="s-nang">0</b></div>
+            <div class="stat-card"><p>MAJURI</p><b id="s-majuri" style="color:var(--success)">₹0</b></div>
+            <div class="stat-card"><p>UPAD</p><b id="s-upad" style="color:var(--danger)">₹0</b></div>
         </div>
-        <div style="margin-bottom: 20px;">
+        <div style="margin-bottom: 15px;">
             <button class="btn-tab active" onclick="changeSec('section1', this)">તળીયા</button>
             <button class="btn-tab" onclick="changeSec('section2', this)">પેલ</button>
             <button class="btn-tab" onclick="changeSec('section3', this)">મથાળા</button>
         </div>
-        <div class="table-container" id="table-render"></div>
-        
-        <h3 style="margin-top:40px;">📅 મંથલી રિપોર્ટ</h3>
-        <div class="table-container"><table id="summary-table"><thead><tr><th>નામ</th><th>નંગ</th><th>મજૂરી</th><th>ઉપાડ</th><th>બાકી</th></tr></thead><tbody id="summary-body"></tbody></table></div>
+        <div class="table-card" id="table-render"></div>
+        <h3>📅 MONTHLY SUMMARY</h3>
+        <div class="table-card"><table><thead><tr><th>Name</th><th>Nang</th><th>Majuri</th><th>Upad</th><th>Balance</th></tr></thead><tbody id="summary-body"></tbody></table></div>
     </div>
 
     <div id="worker-view" class="content">
         <div class="worker-box">
-            <h2 style="text-align:center">તમારો હિસાબ</h2>
+            <h2 style="text-align:center; margin-top:0;">CHECK YOUR HISAB</h2>
             <select id="worker-sel" onchange="fetchFromCloud()">
-                <option value="">-- નામ પસંદ કરો --</option>
+                <option value="">-- SELECT YOUR NAME --</option>
             </select>
-            <div id="worker-res"></div>
+            <div id="worker-res" style="margin-top:20px;"></div>
         </div>
     </div>
 
     <div class="bottom-bar" id="bottomBar" style="display:none;">
-        <button class="btn-action" style="background:#f3f4f6; color:#374151" onclick="exportFullExcel()">📊 Excel</button>
-        <div style="text-align:right">
-            <div style="font-size:0.8rem; font-weight:700; color:#6b7280">ટોટલ બાકી</div>
-            <div id="final-total" style="font-size:1.5rem; font-weight:800; color:var(--primary)">₹0</div>
-        </div>
-        <button class="btn-action" onclick="nextDay()">💾 નવો દિવસ શરૂ કરો</button>
+        <button class="btn-action" style="background:#eee; color:#333" onclick="exportFullExcel()">📊 EXCEL</button>
+        <div style="text-align:right"><div style="font-size:0.7rem; font-weight:700;">TOTAL PENDING</div><div id="final-total" style="font-size:1.4rem; font-weight:800; color:var(--primary)">₹0</div></div>
+        <button class="btn-action" onclick="nextDay()">💾 START NEW DAY</button>
     </div>
 </div>
 
 <script>
+// !!! YAHAN APNI SCRIPT URL DALO !!!
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyY8NIoV-Vg-kNS-YyxGTIK3pEGvX37HsMIy2XpxA3OJiYNvMLoyiCgJQMd_OJrZvnB/exec";
 const ADMIN_PASS = "1234";
 
@@ -138,22 +107,23 @@ const baseNames = {
     "section3": ["નિકુલ","વીનેશ","ધમો","જીગ્ના","મયલો","અમિત","હરેશ"].map(n => ({name:n, rate:5.25, status:'Present'}))
 };
 
-let db = JSON.parse(localStorage.getItem('baj_final_v30')) || [{ dayNum: 1, date: new Date().toLocaleDateString('gu-IN'), sections: JSON.parse(JSON.stringify(baseNames)) }];
+let db = JSON.parse(localStorage.getItem('baj_v4')) || [{ dayNum: 1, date: new Date().toLocaleDateString('gu-IN'), sections: JSON.parse(JSON.stringify(baseNames)) }];
 let activeS = 'section1';
 let isAdmin = (sessionStorage.getItem('isAdmin') === 'true');
 
 window.onload = () => {
     document.getElementById('headerDate').innerText = "Day " + db[0].dayNum + " | " + db[0].date;
-    fillWorkerNames();
-    let lastView = sessionStorage.getItem('currentView') || 'worker';
-    (isAdmin && lastView === 'admin') ? showView('admin') : showView('worker');
+    const savedLogo = localStorage.getItem('app_logo');
+    if(savedLogo) document.getElementById('logo-img').src = savedLogo;
+    fillNames();
+    let view = sessionStorage.getItem('currentView') || 'worker';
+    (isAdmin && view === 'admin') ? showView('admin') : showView('worker');
     render();
 };
 
-function checkAdminAccess() {
+function checkAdmin() {
     if(isAdmin) { showView('admin'); return; }
-    let p = prompt("Password:");
-    if(p === ADMIN_PASS) { isAdmin = true; sessionStorage.setItem('isAdmin', 'true'); showView('admin'); render(); }
+    if(prompt("PASS:") === ADMIN_PASS) { isAdmin = true; sessionStorage.setItem('isAdmin', 'true'); showView('admin'); }
 }
 
 function showView(v) {
@@ -162,87 +132,96 @@ function showView(v) {
     document.getElementById('worker-view').style.display = v === 'worker' ? 'block' : 'none';
     document.getElementById('bottomBar').style.display = v === 'admin' ? 'flex' : 'none';
     document.getElementById('syncBtn').style.display = v === 'admin' ? 'block' : 'none';
-    document.getElementById('navAdmin').classList.toggle('active', v === 'admin');
-    document.getElementById('navWorker').classList.toggle('active', v === 'worker');
+    document.getElementById('navAdmin').className = v === 'admin' ? 'nav-btn active' : 'nav-btn';
+    document.getElementById('navWorker').className = v === 'worker' ? 'nav-btn active' : 'nav-btn';
     if(v === 'admin') updateSummary();
 }
 
-// CURSOR FIX: Sirf values update karega, table nahi
 function upd(s, i, k, val, el) {
     db[0].sections[s][i][k] = Number(val) || 0;
-    localStorage.setItem('baj_final_v30', JSON.stringify(db));
-    
-    // Sirf us row ki mazzuri update karo
+    localStorage.setItem('baj_v4', JSON.stringify(db));
     let row = el.closest('tr');
-    let mazzuri = (db[0].sections[s][i].nang || 0) * db[0].sections[s][i].rate;
-    row.querySelector('.row-majuri').innerText = "₹" + mazzuri.toFixed(2);
-    
-    calc(); // Stats update karega
-    updateSummary();
-}
-
-function render() {
-    let html = `<table><thead><tr><th>P/A</th><th style="text-align:left">કારીગર</th><th>નંગ</th><th>મજૂરી</th><th>ઉપાડ</th></tr></thead><tbody>`;
-    db[0].sections[activeS].forEach((w, i) => {
-        let isA = w.status === 'Absent';
-        html += `<tr style="${isA?'opacity:0.4':''}">
-            <td><button style="width:30px;height:30px;border-radius:50%;border:none;background:${isA? 'var(--danger)':'var(--success)'};color:white;cursor:pointer" onclick="toggleAtt('${activeS}',${i})">${isA?'A':'P'}</button></td>
-            <td style="text-align:left">${w.name}</td>
-            <td><input type="number" value="${w.nang||''}" oninput="upd('${activeS}',${i},'nang',this.value, this)" ${isA?'disabled':''}></td>
-            <td class="row-majuri" style="color:var(--success)">₹${((w.nang||0)*w.rate).toFixed(2)}</td>
-            <td><input type="number" value="${w.upad||''}" oninput="upd('${activeS}',${i},'upad',this.value, this)" ${isA?'disabled':''}></td>
-        </tr>`;
-    });
-    document.getElementById('table-render').innerHTML = html + "</tbody></table>";
+    row.querySelector('.m-cell').innerText = "₹" + (db[0].sections[s][i].nang * db[0].sections[s][i].rate).toFixed(2);
     calc();
 }
 
-function toggleAtt(s, i) { 
-    db[0].sections[s][i].status = (db[0].sections[s][i].status === 'Absent') ? 'Present' : 'Absent';
-    localStorage.setItem('baj_final_v30', JSON.stringify(db)); 
-    render(); 
+function render() {
+    let h = `<table><thead><tr><th>P/A</th><th style="text-align:left">NAME</th><th>NANG</th><th>MAJURI</th><th>UPAD</th></tr></thead><tbody>`;
+    db[0].sections[activeS].forEach((w, i) => {
+        let isA = w.status === 'Absent';
+        h += `<tr style="${isA?'opacity:0.4':''}">
+            <td><button style="width:25px;height:25px;border-radius:50%;border:none;background:${isA?'var(--danger)':'var(--success)'};color:white;" onclick="toggleAtt('${activeS}',${i})">${isA?'A':'P'}</button></td>
+            <td style="text-align:left">${w.name}</td>
+            <td><input type="number" value="${w.nang||''}" oninput="upd('${activeS}',${i},'nang',this.value,this)" ${isA?'disabled':''}></td>
+            <td class="m-cell">₹${((w.nang||0)*w.rate).toFixed(2)}</td>
+            <td><input type="number" value="${w.upad||''}" oninput="upd('${activeS}',${i},'upad',this.value,this)" ${isA?'disabled':''}></td>
+        </tr>`;
+    });
+    document.getElementById('table-render').innerHTML = h + `</tbody></table>`;
+    calc();
+}
+
+function toggleAtt(s, i) {
+    db[0].sections[s][i].status = db[0].sections[s][i].status === 'Absent' ? 'Present' : 'Absent';
+    localStorage.setItem('baj_v4', JSON.stringify(db));
+    render();
 }
 
 function calc() {
     let sn=0, sm=0, su=0, tm=0, tu=0;
-    db[0].sections[activeS].forEach(w => { sn += (w.nang||0); sm += (w.nang||0)*w.rate; su += (w.upad||0); });
-    db.forEach(d => { for(let s in d.sections) d.sections[s].forEach(w => { tm += (w.nang||0)*w.rate; tu += (w.upad||0); }); });
+    db[0].sections[activeS].forEach(w => { sn+=w.nang||0; sm+=(w.nang||0)*w.rate; su+=w.upad||0; });
+    db.forEach(d => { for(let s in d.sections) d.sections[s].forEach(w => { tm+=(w.nang||0)*w.rate; tu+=w.upad||0; }); });
     document.getElementById('s-nang').innerText = sn;
     document.getElementById('s-majuri').innerText = "₹" + sm.toFixed(2);
     document.getElementById('s-upad').innerText = "₹" + su.toFixed(2);
-    document.getElementById('final-total').innerText = "₹" + (tm - tu).toFixed(2);
+    document.getElementById('final-total').innerText = "₹" + (tm-tu).toFixed(2);
 }
 
 function updateSummary() {
-    let sD = {}; db.forEach(d => { for(let s in d.sections) d.sections[s].forEach(w => { if(!sD[w.name]) sD[w.name] = {n:0, m:0, u:0}; sD[w.name].n += (w.nang||0); sD[w.name].m += (w.nang||0)*w.rate; sD[w.name].u += (w.upad||0); }); });
-    let html = ""; Object.keys(sD).sort().forEach(n => { if(sD[n].n > 0 || sD[n].u > 0) html += `<tr><td style="text-align:left">${n}</td><td>${sD[n].n}</td><td>₹${sD[n].m.toFixed(2)}</td><td>₹${sD[n].u}</td><td>₹${(sD[n].m-sD[n].u).toFixed(2)}</td></tr>`; });
-    document.getElementById('summary-body').innerHTML = html;
+    let res = {}; db.forEach(d => { for(let s in d.sections) d.sections[s].forEach(w => { if(!res[w.name]) res[w.name]={n:0,m:0,u:0}; res[w.name].n+=w.nang||0; res[w.name].m+=(w.nang||0)*w.rate; res[w.name].u+=w.upad||0; }); });
+    let h = ""; Object.keys(res).sort().forEach(n => { let b = res[n].m - res[n].u; if(res[n].n > 0 || res[n].u > 0) h += `<tr><td style="text-align:left">${n}</td><td>${res[n].n}</td><td>₹${res[n].m.toFixed(2)}</td><td>₹${res[n].u}</td><td>₹${b.toFixed(2)}</td></tr>`; });
+    document.getElementById('summary-body').innerHTML = h;
+}
+
+async function syncToCloud() {
+    const btn = document.getElementById('syncBtn'); btn.innerText = "⏳ SYNCING..."; btn.disabled = true;
+    let data = []; db.forEach(d => { for(let s in d.sections) d.sections[s].forEach(w => { if(w.nang || w.upad) data.push({day:d.dayNum, date:d.date, name:w.name, nang:w.nang||0, rate:w.rate, upad:w.upad||0}); }); });
+    try {
+        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
+        alert("SYNC SUCCESSFUL! ✅");
+    } catch(e) { alert("SYNC ERROR!"); }
+    btn.innerText = "☁️ SYNC TO CLOUD"; btn.disabled = false;
 }
 
 async function fetchFromCloud() {
     const name = document.getElementById('worker-sel').value;
     if(!name) return;
-    document.getElementById('worker-res').innerHTML = "<p>⌛ લોડ થઈ રહ્યું છે...</p>";
+    document.getElementById('worker-res').innerHTML = "⏳ FETCHING DATA...";
     try {
-        const r = await fetch(SCRIPT_URL); const data = await r.json();
-        let tn=0, tm=0, tu=0;
-        data.slice(1).forEach(row => { if(row[3] === name) { tn += Number(row[4]); tm += (Number(row[4])*Number(row[5])); tu += Number(row[6]); }});
-        document.getElementById('worker-res').innerHTML = `<div style="background:#f0f7ff;padding:20px;border-radius:20px;margin-top:20px"><h3>${name}</h3><p>નંગ: ${tn}</p><p>મજૂરી: ₹${tm.toFixed(2)}</p><p>ઉપાડ: ₹${tu}</p><hr><h4>બાકી: ₹${(tm-tu).toFixed(2)}</h4></div>`;
-    } catch(e) { document.getElementById('worker-res').innerHTML = "Sync Error!"; }
+        const r = await fetch(SCRIPT_URL);
+        const data = await r.json();
+        let n=0, m=0, u=0;
+        data.slice(1).forEach(row => { if(row[2] === name) { n+=Number(row[3]); m+=(Number(row[3])*Number(row[4])); u+=Number(row[5]); }});
+        document.getElementById('worker-res').innerHTML = `<div style="background:#eef2ff;padding:20px;border-radius:15px"><h3>${name}</h3><p>📦 Total Nang: ${n}</p><p>💰 Majuri: ₹${m.toFixed(2)}</p><p>💸 Upad: ₹${u}</p><hr><h4>BALANCE: ₹${(m-u).toFixed(2)}</h4></div>`;
+    } catch(e) { document.getElementById('worker-res').innerHTML = "⚠️ Cloud data not found. Ask Admin to Sync."; }
 }
 
-async function syncToCloud() {
-    const btn = document.getElementById('syncBtn'); btn.innerText = "⏳..."; 
-    let flat = []; db.forEach(d => { for(let s in d.sections) d.sections[s].forEach(w => { if(w.nang || w.upad) flat.push({day:d.dayNum, date:d.date, section:s, name:w.name, nang:w.nang||0, rate:w.rate, upad:w.upad||0}); }); });
-    try { await fetch(SCRIPT_URL, {method:'POST', mode:'no-cors', body:JSON.stringify(flat)}); alert("Saved! ✅"); } catch(e) { alert("Error!"); }
-    btn.innerText = "☁️ સેવ ટુ ક્લાઉડ";
+function handleLogo(input) {
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = (e) => { 
+            document.getElementById('logo-img').src = e.target.result; 
+            localStorage.setItem('app_logo', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 
-function nextDay() { if(confirm("નવો દિવસ?")) { db.unshift({ dayNum: db[0].dayNum + 1, date: new Date().toLocaleDateString('gu-IN'), sections: JSON.parse(JSON.stringify(baseNames)) }); localStorage.setItem('baj_final_v30', JSON.stringify(db)); sessionStorage.setItem('currentView', 'admin'); location.reload(); } }
-function changeSec(id, btn) { activeS = id; document.querySelectorAll('.btn-tab').forEach(b => b.classList.remove('active-tab')); btn.classList.add('active-tab'); render(); }
-function fillWorkerNames() { const sel = document.getElementById('worker-sel'); let all = []; for(let s in baseNames) baseNames[s].forEach(w => all.push(w.name)); all.sort().forEach(n => { let o = document.createElement('option'); o.value = n; o.innerText = n; sel.appendChild(o); }); }
-function exportFullExcel() { let list = []; db.forEach(d => { for(let s in d.sections) d.sections[s].forEach(w => list.push({Day:d.dayNum, Date:d.date, Name:w.name, Nang:w.nang||0, Majuri:(w.nang||0)*w.rate, Upad:w.upad||0})); }); const ws = XLSX.utils.json_to_sheet(list); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Hisab"); XLSX.writeFile(wb, "Report.xlsx"); }
-function resetSystem() { if(prompt("Pass:") === ADMIN_PASS) { localStorage.clear(); location.reload(); } }
+function nextDay() { if(confirm("NEW DAY?")) { db.unshift({ dayNum: db[0].dayNum + 1, date: new Date().toLocaleDateString('gu-IN'), sections: JSON.parse(JSON.stringify(baseNames)) }); localStorage.setItem('baj_v4', JSON.stringify(db)); location.reload(); } }
+function changeSec(s, btn) { activeS = s; document.querySelectorAll('.btn-tab').forEach(b => b.classList.remove('active')); btn.classList.add('active'); render(); }
+function fillNames() { const sel = document.getElementById('worker-sel'); let all = []; for(let s in baseNames) baseNames[s].forEach(w => all.push(w.name)); all.sort().forEach(n => { let o = document.createElement('option'); o.value = n; o.innerText = n; sel.appendChild(o); }); }
+function resetAll() { if(prompt("PASS:") === ADMIN_PASS) { localStorage.clear(); location.reload(); } }
+function exportFullExcel() { let list = []; db.forEach(d => { for(let s in d.sections) d.sections[s].forEach(w => list.push({Day:d.dayNum, Date:d.date, Name:w.name, Nang:w.nang||0, Majuri:(w.nang||0)*w.rate, Upad:w.upad||0})); }); const ws = XLSX.utils.json_to_sheet(list); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Report"); XLSX.writeFile(wb, "Report.xlsx"); }
 </script>
 </body>
 </html>
